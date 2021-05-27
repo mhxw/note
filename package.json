@@ -1,0 +1,70 @@
+{
+  "name": "@mhxw/mhxw.github.io",
+  "version": "2.3.3",
+  "description": "mhxw blog",
+  "repository": {
+    "type": "git",
+    "url": "mhxw/mhxw.github.io"
+  },
+  "license": "MIT",
+  "author": "mhxw",
+  "main": "index.js",
+  "files": [
+    "index.js",
+    "styles",
+    "layouts",
+    "global-components",
+    "fonts",
+    "components"
+  ],
+  "scripts": {
+    "build": "vuepress build docs",
+    "start": "vuepress dev docs",
+    "push": "bash scripts/push.sh",
+    "deploy": "bash scripts/deploy.sh"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "package.json": [
+      "sort-package-json",
+      "git add"
+    ]
+  },
+  "dependencies": {
+    "@vuepress/plugin-blog": "^1.9.4",
+    "@vuepress/plugin-medium-zoom": "^1.7.1",
+    "@vuepress/plugin-nprogress": "^1.7.1",
+    "@vuepress/plugin-pwa": "^1.7.1",
+    "@vuepress/plugin-search": "^1.7.1",
+    "dayjs": "^1.8.19",
+    "remove-markdown": "^0.3.0",
+    "vue-feather-icons": "^4.21.0",
+    "vuepress-plugin-code-copy": "^1.0.6",
+    "vuepress-plugin-smooth-scroll": "^0.0.9"
+  },
+  "devDependencies": {
+    "@mr-hope/vuepress-plugin-copy-code": "^1.12.5",
+    "@xiaopanda/vuepress-plugin-code-copy": "^1.0.3",
+    "babel-eslint": "^10.0.3",
+    "conventional-changelog-cli": "^2.0.1",
+    "husky": "^3.1.0",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.5.0",
+    "sort-package-json": "^1.31.0",
+    "vuepress": "^1.7.1"
+  },
+  "peerDependencies": {
+    "vuepress": "^1.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}
