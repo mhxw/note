@@ -1,10 +1,10 @@
 {
-  "name": "@mhxw/mhxw.github.io",
+  "name": "@mhxw/note",
   "version": "2.3.3",
   "description": "mhxw blog",
   "repository": {
     "type": "git",
-    "url": "mhxw/mhxw.github.io"
+    "url": "mhxw.life/note"
   },
   "license": "MIT",
   "author": "mhxw",

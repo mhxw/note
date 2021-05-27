@@ -10,7 +10,7 @@ module.exports = {
   themeConfig: {
     dateFormat: 'YYYY-MM-DD',
     author: "MHXW",
-    repo: "mhxw/note",
+    repo: "github.com/mhxw/note",
     docsDir: "docs",
     editLinks: true,
     editLinkText: "在 GitHub 上编辑此页",

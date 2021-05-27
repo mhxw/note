@@ -143,8 +143,9 @@ export default {
   max-width 250px
   overflow-y auto
   padding-top 6rem
-  top 0
-  right 10px
+  top 50px
+  left 50px
+
   box-sizing border-box
   /* background: #fff; */
   z-index 0
@@ -184,7 +185,7 @@ export default {
       padding-left 1rem * (i - 2)
 
 // for vuepress-toc
-@media (min-width: 1300px)
+@media (min-width: 1600px)
   .vuepress-toc
     display block
 </style>
