@@ -6,6 +6,10 @@ MHXW：世界人民对生活的美好向往，是人类的共同奋斗目标！
 
 Github：[https://github.com/mhxw](https://github.com/mhxw)
 
+## Blog
+
+分享技术点滴和开发笔记
+
 ## Specialty
 
 - Cryptography
@@ -13,6 +17,8 @@ Github：[https://github.com/mhxw](https://github.com/mhxw)
 - Golang
 
 - Docker
+
+- AI
 
 - Rust
 
