@@ -133,16 +133,19 @@ export default {
 </script>
 
 <style lang="stylus">
+
+
 .table-of-contents
   display none !important
 
 .vuepress-toc
   position fixed
   display none
-  max-height 100vh
+  max-height 80vh
   max-width 250px
   overflow-y auto
-  padding-top 6rem
+  padding-top 1rem
+  margin-top 3rem
   top 50px
   left 50px
 
