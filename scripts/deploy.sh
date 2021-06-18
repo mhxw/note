@@ -9,7 +9,7 @@ git branch -M web
 git remote add origin https://github.com/mhxw/note.git
 git push -u -f origin web
 
-cd ../../
+cd ../../../
 rm -rf docs/.vuepress/dist
 
 

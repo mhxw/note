@@ -24,23 +24,23 @@ https://prometheus.io/download/
 ### 2、解压
 
 ```shell
-mkdir -p /swarm/prometheus/alertmanager
+mkdir -p /mhxw/prometheus/alertmanager
 wget https://github.com/prometheus/alertmanager/releases/download/v0.22.2/alertmanager-0.22.2.linux-amd64.tar.gz
-tar -zxvf alertmanager-0.22.2.linux-amd64.tar.gz -C /swarm/prometheus/
-mv /swarm/prometheus/alertmanager-0.22.2.linux-amd64/* /swarm/prometheus/alertmanager
-cd /swarm/prometheus/alertmanager
+tar -zxvf alertmanager-0.22.2.linux-amd64.tar.gz -C /mhxw/prometheus/
+mv /mhxw/prometheus/alertmanager-0.22.2.linux-amd64/* /mhxw/prometheus/alertmanager
+cd /mhxw/prometheus/alertmanager
 ```
 
 - 查看版本
 
 ```shell
-/swarm/prometheus/alertmanager/alertmanager --version
+/mhxw/prometheus/alertmanager/alertmanager --version
 ```
 
 ### 3、编辑`alertmanager`配置文件
 
 ```shell
-vim /swarm/prometheus/alertmanager/alertmanager.yml
+vim /mhxw/prometheus/alertmanager/alertmanager.yml
 ```
 
 配置文件说明
@@ -102,13 +102,13 @@ global:
   #关闭TLS授权
   smtp_require_tls: true
 route:
-  group_by: ['swarm_status','node_status'] #与prometheus配置文件alert_rules.yml中配置规则名对应
+  group_by: ['mhxw_status','node_status'] #与prometheus配置文件alert_rules.yml中配置规则名对应
   group_wait: 30s #报警等待时间
   group_interval: 5m #报警间隔时间
   repeat_interval: 1h #重复报警间隔时间
-  receiver: 'swarm_receiver' #告警处理方式
+  receiver: 'mhxw_receiver' #告警处理方式
 receivers:
-- name: 'swarm_receiver'
+- name: 'mhxw_receiver'
   email_configs:
     - to: 'mhxw@gmail.com'
       send_resolved: true
@@ -192,7 +192,7 @@ tmux new -s alertmanager
 
 ```shell
 tmux a -t alertmanager
-/swarm/prometheus/alertmanager/alertmanager --config.file=/swarm/prometheus/alertmanager/alertmanager.yml --web.listen-address=:1998
+/mhxw/prometheus/alertmanager/alertmanager --config.file=/mhxw/prometheus/alertmanager/alertmanager.yml --web.listen-address=:1998
 ```
 
 一种是`systemd`采用开机启动方式
@@ -205,7 +205,7 @@ After=local-fs.target network-online.target network.target
 Wants=local-fs.target network-online.target network.target
  
 [Service]
-ExecStart=/swarm/prometheus/alertmanager/alertmanager --config.file=/swarm/prometheus/alertmanager/alertmanager.yml --web.listen-address=:1998
+ExecStart=/mhxw/prometheus/alertmanager/alertmanager --config.file=/mhxw/prometheus/alertmanager/alertmanager.yml --web.listen-address=:1998
 Restart=on-failure
 [Install]
 WantedBy=multi-user.target
@@ -227,7 +227,7 @@ systemctl status alertmanager
 ### 1、编辑prometheus.yml
 
 ```shell
-vim /swarm/prometheus/prometheus/prometheus.yml
+vim /mhxw/prometheus/prometheus/prometheus.yml
 ```
 
 - 告警配置连接
@@ -292,9 +292,9 @@ scrape_configs:
     static_configs:
     - targets: ['localhost:9101'] #安装node_exporter的服务器
 #追加以下内容
-  - job_name: 'swarm'
+  - job_name: 'mhxw'
     static_configs:
-    - targets: ['47.242.76.64:26635'] #安装swarm的服务器
+    - targets: ['47.242.76.64:26635'] #安装mhxw的服务器
 #追加以下内容
   - job_name: 'alertmanager'
     static_configs:

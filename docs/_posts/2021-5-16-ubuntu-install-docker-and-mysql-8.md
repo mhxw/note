@@ -52,7 +52,7 @@ Server:
   Volume: local
   Network: bridge host ipvlan macvlan null overlay
   Log: awslogs fluentd gcplogs gelf journald json-file local logentries splunk syslog
- Swarm: inactive
+Swarm: inactive
  Runtimes: io.containerd.runc.v2 io.containerd.runtime.v1.linux runc
  Default Runtime: runc
  Init Binary: docker-init
@@ -86,7 +86,7 @@ Server:
 官方文档的修改办法是编辑 `/etc/docker/daemon.json` 文件：
 
 ```shell
-vi /etc/docker/daemon.json 
+vi /etc/docker/daemon.json
 ```
 
 默认情况下这个配置文件是没有的，这里实际也就是新建一个，然后写入以下内容：

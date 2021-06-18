@@ -29,10 +29,10 @@ Prometheus是一个开放性的监控解决方案，用户可以非常方便的�
 https://golang.org/dl/
 ```
 
-使用以下命令golang文件会自动下载并解压到`/swarm/go`到目录下
+使用以下命令golang文件会自动下载并解压到`/mhxw/go`到目录下
 
 ```shell
-wget -c https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz -O - | sudo tar -xz -C /swarm/
+wget -c https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz -O - | sudo tar -xz -C /mhxw/
 ```
 
 ### 2、配置环境变量
@@ -41,7 +41,7 @@ wget -c https://dl.google.com/go/go1.16.5.linux-amd64.tar.gz -O - | sudo tar -xz
 
 ```shell
 vim ~/.profile
-export PATH=$PATH:/swarm/go/bin
+export PATH=$PATH:/mhxw/go/bin
 ```
 
 保存文件，并且重新加载新的PATH 环境变量到当前的 shell 会话：
@@ -77,12 +77,12 @@ mv prometheus-2.27.1.linux-amd64 prometheus
 
 ### 2、启动
 
-普罗米修斯默认配置文件 `/swarm/prometheus/prometheus/prometheus.yml`
+普罗米修斯默认配置文件 `/mhxw/prometheus/prometheus/prometheus.yml`
 
 - 先修改prometheus配置文件
 
 ```
-vim /swarm/prometheus/prometheus/prometheus.yml
+vim /mhxw/prometheus/prometheus/prometheus.yml
 ```
 
 以下参数设置为1min
@@ -103,7 +103,7 @@ vim /swarm/prometheus/prometheus/prometheus.yml
 - 启动命令
 
 ```shell
-./prometheus --config.file=/swarm/prometheus/prometheus/prometheus.yml --web.listen-address=:14200
+./prometheus --config.file=/mhxw/prometheus/prometheus/prometheus.yml --web.listen-address=:14200
 ```
 
 - 进入会话
@@ -202,13 +202,13 @@ sudo yum install grafana-7.5.7-1.x86_64.rpm
 ```shell
 wget https://dl.grafana.com/oss/release/grafana-8.0.0.linux-amd64.tar.gz
 tar -zxvf grafana-8.0.0.linux-amd64.tar.gz
-mv /swarm/prometheus/grafana-8.0.0 /swarm/prometheus/grafana
+mv /mhxw/prometheus/grafana-8.0.0 /mhxw/prometheus/grafana
 ```
 
 设置端口和IP
 
 ```shell
-vim /swarm/prometheus/grafana/conf/defaults.ini
+vim /mhxw/prometheus/grafana/conf/defaults.ini
 ```
 
 设置端口和IP
@@ -232,7 +232,7 @@ tmux new -s grafana
 
 ```shell
 tmux a -t grafana
- /swarm/prometheus/grafana/bin/grafana-server --config /swarm/prometheus/grafana/conf/defaults.ini
+ /mhxw/prometheus/grafana/bin/grafana-server --config /mhxw/prometheus/grafana/conf/defaults.ini
 ```
 
 ```shell
