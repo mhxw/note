@@ -77,10 +77,12 @@ module.exports = {
   },
   plugins: [
     [
-      "@mr-hope/copy-code",
-      {
-        // 你的选项
-      },
+      [
+        "@mr-hope/copy-code",
+        {
+          // 你的选项
+        },
+      ],
     ],
   ],
 }
