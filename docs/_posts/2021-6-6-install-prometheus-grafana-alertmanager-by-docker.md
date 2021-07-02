@@ -185,19 +185,19 @@ docker rm prometheus
 
 ```shell
 docker run --name=prometheus -d -p 14204:9090 \
--v /swarm/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
--v /swarm/monitor/prometheus/zhangZhang.yml:/etc/prometheus/zhangZhang.yml \
--v /swarm/monitor/prometheus/swarm_node_exporter.yml:/etc/prometheus/swarm_node_exporter.yml \
--v /swarm/monitor/prometheus/laoCui.yml:/etc/prometheus/laoCui.yml \
--v /swarm/monitor/prometheus/rules/alert-rules-node.yml:/etc/prometheus/rules/alert-rules-node.yml \
--v /swarm/monitor/prometheus/rules/alert-rules-swarm.yml:/etc/prometheus/rules/alert-rules-swarm.yml \
+-v /mhxw/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
+-v /mhxw/monitor/prometheus/zhangZhang.yml:/etc/prometheus/zhangZhang.yml \
+-v /mhxw/monitor/prometheus/swarm_node_exporter.yml:/etc/prometheus/swarm_node_exporter.yml \
+-v /mhxw/monitor/prometheus/laoCui.yml:/etc/prometheus/laoCui.yml \
+-v /mhxw/monitor/prometheus/rules/alert-rules-node.yml:/etc/prometheus/rules/alert-rules-node.yml \
+-v /mhxw/monitor/prometheus/rules/alert-rules-mhxw.yml:/etc/prometheus/rules/alert-rules-mhxw.yml \
 prom/prometheus
 ```
 
 ```shell
 docker run --name=prometheus -d -p 14204:9090 \
--v /swarm/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
--v /swarm/monitor/prometheus/:/etc/prometheus/config/ \
+-v /mhxw/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
+-v /mhxw/monitor/prometheus/:/etc/prometheus/config/ \
 prom/prometheus
 ```
 
@@ -215,8 +215,8 @@ https://cloud.tencent.com/developer/article/1486483
 
 ```shell
 docker run --name=prometheus -d -p 20603:9090 \
--v /swarm/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
--v /swarm/monitor/prometheus/:/etc/prometheus/config/ \
+-v /mhxw/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
+-v /mhxw/monitor/prometheus/:/etc/prometheus/config/ \
 prom/prometheus
 
 docker logs -f prometheus
@@ -230,8 +230,8 @@ docker rm prometheus
 
 ```shell
 docker run -d -p 20604:9093 --name alertmanager \
--v /swarm/prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml \
--v /swarm/prometheus/:/etc/alertmanager/config/ \
+-v /mhxw/prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml \
+-v /mhxw/prometheus/:/etc/alertmanager/config/ \
 prom/alertmanager
 
 docker stop alertmanager
@@ -247,7 +247,7 @@ sudo docker run --restart unless-stopped \
 	--name=bee_export \
 	--log-opt max-size=20m \
 	--log-opt max-file=3 \
-	-v /swarm/monitor/bee_export/info.json:/usr/local/bin/info.json \
+	-v /mhxw/monitor/bee_export/info.json:/usr/local/bin/info.json \
 	sgswarm/bee_export:0.0.6 -path /usr/local/bin/info.json
 
 docker stop bee_export
@@ -257,7 +257,7 @@ docker rm bee_export
 
 ## 常见错误处理
 
-问题一
+- 问题一
 
 ```shell
 level=error ts=2021-06-25T02:55:06.818Z caller=query_logger.go:87 component=activeQueryTracker msg="Error opening query log file" file=/prometheus/queries.active err="open /prometheus/queries.active: permission denied"
@@ -273,6 +273,10 @@ main.main()
 启动命令造成
 
 ```shell
--v /swarm/monitor/prometheus/data:/prometheus \
+-v /mhxw/monitor/prometheus/data:/prometheus \
 ```
+
+- 问题二
+
+docker启动时候，prometheus命令放在镜像名后面
 
