@@ -15,7 +15,7 @@ https://golang.org/dl/
 ```
 
 ```shell
-wget -c https://golang.org/dl/go1.16.5.linux-amd64.tar.gz -O - | sudo tar -xz -C /swarm
+wget -c https://golang.org/dl/go1.16.5.linux-amd64.tar.gz -O - | sudo tar -xz -C /mhxw
 ```
 
 
@@ -23,7 +23,7 @@ wget -c https://golang.org/dl/go1.16.5.linux-amd64.tar.gz -O - | sudo tar -xz -C
 
 ```shell
 vim ~/.profile
-export PATH=$PATH:/swarm/go/bin
+export PATH=$PATH:/mhxw/go/bin
 source ~/.profile
 ```
 

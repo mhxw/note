@@ -34,14 +34,14 @@ Prometheus是一款基于时序数据库的开源监控告警系统。
 
 ```shell
 # 创建数据盘目录
-mkdir -p /swarm/monitor/prometheus
+mkdir -p /mhxw/monitor/prometheus
 ```
 
 把编辑好的配置文件 `prometheus.yml` 放置到 `prometheus` 目录下
 
 ```shell
 docker run --name=prometheus -d -p 20602:9090 \
--v /swarm/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
+-v /mhxw/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
 prom/prometheus
 ```
 
@@ -111,8 +111,8 @@ docker run -d -p 14206:3000 --name=grafana grafana/grafana
 
 ```shell
 docker run -d -p 14207:9093 --name alertmanager \
--v /swarm/monitor/prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml \
--v /swarm/monitor/prometheus/:/etc/alertmanager/config/ \
+-v /mhxw/monitor/prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml \
+-v /mhxw/monitor/prometheus/:/etc/alertmanager/config/ \
 prom/alertmanager
 ```
 
@@ -187,7 +187,7 @@ docker rm prometheus
 docker run --name=prometheus -d -p 14204:9090 \
 -v /mhxw/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml \
 -v /mhxw/monitor/prometheus/zhangZhang.yml:/etc/prometheus/zhangZhang.yml \
--v /mhxw/monitor/prometheus/swarm_node_exporter.yml:/etc/prometheus/swarm_node_exporter.yml \
+-v /mhxw/monitor/prometheus/mhxw_node_exporter.yml:/etc/prometheus/mhxw_node_exporter.yml \
 -v /mhxw/monitor/prometheus/laoCui.yml:/etc/prometheus/laoCui.yml \
 -v /mhxw/monitor/prometheus/rules/alert-rules-node.yml:/etc/prometheus/rules/alert-rules-node.yml \
 -v /mhxw/monitor/prometheus/rules/alert-rules-mhxw.yml:/etc/prometheus/rules/alert-rules-mhxw.yml \
