@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Cron 入门与使用 | MHXW</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/note/logo.png">
+    <link rel="alternate" type="application/rss+xml" href="https://mhxw.life/rss.xml" title="MHXW RSS Feed">
+    <meta name="description" content="
+引入依赖包
+`shell
+go get -u github.com/robfig/cron/v3
+`
+案例演示
+`shell
+package main
+import (
+  "fmt"
+  "time"
+  "github.com/robfig/cron/v3"
+)
+func main() {
+  c := cron.N ...">
+    <meta name="MHXW" content="mhxw blog">
+    
+    <link rel="preload" href="/note/assets/css/0.styles.15d6f971.css" as="style"><link rel="preload" href="/note/assets/js/app.36252550.js" as="script"><link rel="preload" href="/note/assets/js/8.2b515bb1.js" as="script"><link rel="preload" href="/note/assets/js/3.f6739d14.js" as="script"><link rel="preload" href="/note/assets/js/27.78579ce9.js" as="script"><link rel="preload" href="/note/assets/js/11.103ea2f0.js" as="script"><link rel="prefetch" href="/note/assets/js/10.6929b2b7.js"><link rel="prefetch" href="/note/assets/js/12.4d636b7f.js"><link rel="prefetch" href="/note/assets/js/13.d93a6436.js"><link rel="prefetch" href="/note/assets/js/14.521720fc.js"><link rel="prefetch" href="/note/assets/js/15.fe7581b1.js"><link rel="prefetch" href="/note/assets/js/16.fd0d2525.js"><link rel="prefetch" href="/note/assets/js/17.bd669e5d.js"><link rel="prefetch" href="/note/assets/js/18.49681434.js"><link rel="prefetch" href="/note/assets/js/19.dff2ad59.js"><link rel="prefetch" href="/note/assets/js/20.97e79743.js"><link rel="prefetch" href="/note/assets/js/21.c93097bc.js"><link rel="prefetch" href="/note/assets/js/22.429da250.js"><link rel="prefetch" href="/note/assets/js/23.730f8451.js"><link rel="prefetch" href="/note/assets/js/24.6eed2fc2.js"><link rel="prefetch" href="/note/assets/js/25.6ccaca11.js"><link rel="prefetch" href="/note/assets/js/26.a22dd40f.js"><link rel="prefetch" href="/note/assets/js/28.b4036104.js"><link rel="prefetch" href="/note/assets/js/29.4aa3c2c4.js"><link rel="prefetch" href="/note/assets/js/30.3a3b493c.js"><link rel="prefetch" href="/note/assets/js/31.57fab91c.js"><link rel="prefetch" href="/note/assets/js/32.47a51bf2.js"><link rel="prefetch" href="/note/assets/js/33.13e1708f.js"><link rel="prefetch" href="/note/assets/js/34.2b92be19.js"><link rel="prefetch" href="/note/assets/js/35.3536a88d.js"><link rel="prefetch" href="/note/assets/js/36.1c3e47e9.js"><link rel="prefetch" href="/note/assets/js/4.638b10e5.js"><link rel="prefetch" href="/note/assets/js/5.e5967abf.js"><link rel="prefetch" href="/note/assets/js/6.c4877f48.js"><link rel="prefetch" href="/note/assets/js/7.e800e18b.js"><link rel="prefetch" href="/note/assets/js/9.632d5cc1.js"><link rel="prefetch" href="/note/assets/js/vuejs-paginate.92caeb0c.js">
+    <link rel="stylesheet" href="/note/assets/css/0.styles.15d6f971.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/note/" class="nav-link home-link">MHXW </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/note/" class="nav-link mobile-home-link">MHXW </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="mobile-nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="mobile-nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        Cron 入门与使用
+      </h1> <div class="post-meta"><div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2021-6-20">
+        2021-06-20
+      </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-450235f2><a href="/note/tag/golang" data-v-450235f2><span data-v-450235f2>golang</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/crontab" data-v-450235f2><span data-v-450235f2>crontab</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h2 id="入门"><a href="#入门" class="header-anchor">#</a> 入门</h2> <ul><li>引入依赖包</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>go get -u github.com/robfig/cron/v3
+</code></pre></div><ul><li>案例演示</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>package main
+
+<span class="token function">import</span> <span class="token punctuation">(</span>
+  <span class="token string">&quot;fmt&quot;</span>
+  <span class="token string">&quot;time&quot;</span>
+
+  <span class="token string">&quot;github.com/robfig/cron/v3&quot;</span>
+<span class="token punctuation">)</span>
+
+func <span class="token function-name function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  c :<span class="token operator">=</span> cron.New<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  c.AddFunc<span class="token punctuation">(</span><span class="token string">&quot;@every 1s&quot;</span>, <span class="token function-name function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt.Println<span class="token punctuation">(</span><span class="token string">&quot;tick every 1 second&quot;</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  c.Start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+  
+  // 阻塞，或者使用其他延迟时间函数、
+  select<span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>使用非常简单，创建cron对象，这个对象用于管理定时任务。</p> <p>调用cron对象的AddFunc()方法向管理器中添加定时任务。AddFunc()接受两个参数，参数 1 以字符串形式指定触发时间规则，参数 2 是一个无参的函数，每次触发时调用。@every 1s表示每秒触发一次，@every后加一个时间间隔，表示每隔多长时间触发一次。例如@every 1h表示每小时触发一次，@every 1m2s表示每隔 1 分 2 秒触发一次。time.ParseDuration()支持的格式都可以用在这里。</p> <p>调用c.Start()启动定时循环。</p> <p>注意一点，因为c.Start()启动一个新的 goroutine 做循环检测，我们在代码最后加了一行time.Sleep(time.Second * 5)防止主 goroutine 退出。</p> <p>运行效果，每隔 1s 输出一行字符串：</p> <div class="language-shell extra-class"><pre class="language-shell"><code>$ go run main.go
+tick every <span class="token number">1</span> second
+tick every <span class="token number">1</span> second
+tick every <span class="token number">1</span> second
+tick every <span class="token number">1</span> second
+tick every <span class="token number">1</span> second
+</code></pre></div><h2 id="时间格式"><a href="#时间格式" class="header-anchor">#</a> 时间格式</h2> <div class="language- extra-class"><pre class="language-text"><code>每隔5秒执行一次：*/5 * * * * ?
+
+每隔1分钟执行一次：0 */1 * * * ?
+
+每天23点执行一次：0 0 23 * * ?
+
+每天凌晨1点执行一次：0 0 1 * * ?
+
+每月1号凌晨1点执行一次：0 0 1 1 * ?
+
+在26分、29分、33分执行一次：0 26,29,33 * * * ?
+
+每天的0点、13点、18点、21点都执行一次：0 0 0,13,18,21 * * ?
+</code></pre></div><h3 id="预定义时间规则"><a href="#预定义时间规则" class="header-anchor">#</a> 预定义时间规则</h3> <p>为了方便使用，cron预定义了一些时间规则：</p> <ul><li>@yearly：也可以写作@annually，表示每年第一天的 0 点。等价于0 0 1 1 *；</li> <li>@monthly：表示每月第一天的 0 点。等价于0 0 1 * *；</li> <li>@weekly：表示每周第一天的 0 点，注意第一天为周日，即周六结束，周日开始的那个 0 点。等价于0 0 * * 0；</li> <li>@daily：也可以写作@midnight，表示每天 0 点。等价于0 0 * * *；</li> <li>@hourly：表示每小时的开始。等价于0 * * * *。</li></ul> <p>例如：</p> <div class="language-shell extra-class"><pre class="language-shell"><code>func <span class="token function-name function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  c :<span class="token operator">=</span> cron.New<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  c.AddFunc<span class="token punctuation">(</span><span class="token string">&quot;@hourly&quot;</span>, <span class="token function-name function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt.Println<span class="token punctuation">(</span><span class="token string">&quot;Every hour&quot;</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  c.AddFunc<span class="token punctuation">(</span><span class="token string">&quot;@daily&quot;</span>, <span class="token function-name function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt.Println<span class="token punctuation">(</span><span class="token string">&quot;Every day on midnight&quot;</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  c.AddFunc<span class="token punctuation">(</span><span class="token string">&quot;@weekly&quot;</span>, <span class="token function-name function">func</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    fmt.Println<span class="token punctuation">(</span><span class="token string">&quot;Every week&quot;</span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+  c.Start<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+  <span class="token keyword">for</span> <span class="token punctuation">{</span>
+    time.Sleep<span class="token punctuation">(</span>time.Second<span class="token punctuation">)</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="参考链接"><a href="#参考链接" class="header-anchor">#</a> 参考链接</h2> <div class="language-shell extra-class"><pre class="language-shell"><code>https://www.cnblogs.com/niuben/p/14615806.html
+</code></pre></div></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#入门" title="入门">入门</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#时间格式" title="时间格式">时间格式</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#预定义时间规则" title="预定义时间规则">预定义时间规则</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#参考链接" title="参考链接">参考链接</a></div></div></div></div> <footer class="footer" data-v-4f6150ea><div class="footer-left-wrap" data-v-4f6150ea><ul class="contact" data-v-4f6150ea><li class="contact-item" data-v-4f6150ea><a href="https://github.com/mhxw" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-4f6150ea><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-4f6150ea><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-4f6150ea></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-4f6150ea><ul class="copyright" data-v-4f6150ea><li class="copyright-item" data-v-4f6150ea>Copyright © 2017-Present Powered by MHXW</li></ul></div></footer></div><div class="global-ui"><!----></div></div>
+    <script src="/note/assets/js/app.36252550.js" defer></script><script src="/note/assets/js/8.2b515bb1.js" defer></script><script src="/note/assets/js/3.f6739d14.js" defer></script><script src="/note/assets/js/27.78579ce9.js" defer></script><script src="/note/assets/js/11.103ea2f0.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>在Ubuntu18.04 上采用Docker 安装bitwardenrs和实现自动备份数据库 | MHXW</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/note/logo.png">
+    <link rel="alternate" type="application/rss+xml" href="https://mhxw.life/rss.xml" title="MHXW RSS Feed">
+    <meta name="description" content="文章使用环境为ubuntu，使用docker运行bitwarden_rs服务。
+一、安装docker
+简单安装法：
+`
+sudo apt install docker.io
+`
+查看docker是否安装成功
+`
+docker -v
+`
+启动docker
+`
+sudo systemctl start docker
+`
+设置docker服务开机 ...">
+    <meta name="MHXW" content="mhxw blog">
+    
+    <link rel="preload" href="/note/assets/css/0.styles.15d6f971.css" as="style"><link rel="preload" href="/note/assets/js/app.36252550.js" as="script"><link rel="preload" href="/note/assets/js/8.2b515bb1.js" as="script"><link rel="preload" href="/note/assets/js/3.f6739d14.js" as="script"><link rel="preload" href="/note/assets/js/20.97e79743.js" as="script"><link rel="preload" href="/note/assets/js/11.103ea2f0.js" as="script"><link rel="prefetch" href="/note/assets/js/10.6929b2b7.js"><link rel="prefetch" href="/note/assets/js/12.4d636b7f.js"><link rel="prefetch" href="/note/assets/js/13.d93a6436.js"><link rel="prefetch" href="/note/assets/js/14.521720fc.js"><link rel="prefetch" href="/note/assets/js/15.fe7581b1.js"><link rel="prefetch" href="/note/assets/js/16.fd0d2525.js"><link rel="prefetch" href="/note/assets/js/17.bd669e5d.js"><link rel="prefetch" href="/note/assets/js/18.49681434.js"><link rel="prefetch" href="/note/assets/js/19.dff2ad59.js"><link rel="prefetch" href="/note/assets/js/21.c93097bc.js"><link rel="prefetch" href="/note/assets/js/22.429da250.js"><link rel="prefetch" href="/note/assets/js/23.730f8451.js"><link rel="prefetch" href="/note/assets/js/24.6eed2fc2.js"><link rel="prefetch" href="/note/assets/js/25.6ccaca11.js"><link rel="prefetch" href="/note/assets/js/26.a22dd40f.js"><link rel="prefetch" href="/note/assets/js/27.78579ce9.js"><link rel="prefetch" href="/note/assets/js/28.b4036104.js"><link rel="prefetch" href="/note/assets/js/29.4aa3c2c4.js"><link rel="prefetch" href="/note/assets/js/30.3a3b493c.js"><link rel="prefetch" href="/note/assets/js/31.57fab91c.js"><link rel="prefetch" href="/note/assets/js/32.47a51bf2.js"><link rel="prefetch" href="/note/assets/js/33.13e1708f.js"><link rel="prefetch" href="/note/assets/js/34.2b92be19.js"><link rel="prefetch" href="/note/assets/js/35.3536a88d.js"><link rel="prefetch" href="/note/assets/js/36.1c3e47e9.js"><link rel="prefetch" href="/note/assets/js/4.638b10e5.js"><link rel="prefetch" href="/note/assets/js/5.e5967abf.js"><link rel="prefetch" href="/note/assets/js/6.c4877f48.js"><link rel="prefetch" href="/note/assets/js/7.e800e18b.js"><link rel="prefetch" href="/note/assets/js/9.632d5cc1.js"><link rel="prefetch" href="/note/assets/js/vuejs-paginate.92caeb0c.js">
+    <link rel="stylesheet" href="/note/assets/css/0.styles.15d6f971.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/note/" class="nav-link home-link">MHXW </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/note/" class="nav-link mobile-home-link">MHXW </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="mobile-nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="mobile-nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        在Ubuntu18.04 上采用Docker 安装bitwardenrs和实现自动备份数据库
+      </h1> <div class="post-meta"><div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2021-3-6">
+        2021-03-06
+      </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-450235f2><a href="/note/tag/docker" data-v-450235f2><span data-v-450235f2>docker</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/ubuntu" data-v-450235f2><span data-v-450235f2>ubuntu</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><p>文章使用环境为ubuntu，使用docker运行bitwarden_rs服务。</p> <h2 id="一、安装docker"><a href="#一、安装docker" class="header-anchor">#</a> 一、安装docker</h2> <p>简单安装法：</p> <div class="language- extra-class"><pre class="language-text"><code>sudo apt install docker.io
+</code></pre></div><p>查看docker是否安装成功</p> <div class="language- extra-class"><pre class="language-text"><code>docker -v
+</code></pre></div><p>启动docker</p> <div class="language- extra-class"><pre class="language-text"><code>sudo systemctl start docker
+</code></pre></div><p>设置docker服务开机自启动</p> <div class="language- extra-class"><pre class="language-text"><code>sudo systemctl enable docker
+</code></pre></div><blockquote><p>国内服务器建议配置镜像加速器</p></blockquote> <h2 id="二、部署bitwarden-rs"><a href="#二、部署bitwarden-rs" class="header-anchor">#</a> 二、部署bitwarden_rs</h2> <p>bitwarden_rs是由rust编写的非官方客户端，优点是内存占用小，和官方兼容性高。
+仓库：https://github.com/dani-garcia/bitwarden_rs</p> <ul><li>使用Docker拉取bitwarden_rs镜像</li></ul> <div class="language- extra-class"><pre class="language-text"><code>docker pull bitwardenrs/server:latest
+</code></pre></div><ul><li>运行
+其中<code>bw-data</code>为持久化保存的数据：网站图标缓存、密钥和数据库文件，您可以根据自己的需要调整路径。</li></ul> <div class="language- extra-class"><pre class="language-text"><code>docker run -d --name bitwarden -v /bw-data/:/data/ -p 8800:80 bitwardenrs/server:latest
+</code></pre></div><h3 id="其他配置"><a href="#其他配置" class="header-anchor">#</a> 其他配置</h3> <ul><li>禁用新用户注册</li></ul> <div class="language- extra-class"><pre class="language-text"><code>docker run -d --name bitwarden \
+  -e SIGNUPS_ALLOWED=false \
+  -v /bw-data/:/data/ \
+  -p 8800:80 \
+  bitwardenrs/server:latest
+</code></pre></div><ul><li>禁用邀请
+即使禁用注册，组织管理员或所有者也可以邀请用户加入组织。受邀请后，即使<code>SIGNUPS_ALLOWED</code>实际上设置为，他们也可以向受邀请的电子邮件注册false。您可以通过将<code>INVITATIONS_ALLOWED</code>env变量设置为来完全禁用此功能false：</li></ul> <div class="language- extra-class"><pre class="language-text"><code>docker run -d --name bitwarden \
+  -e SIGNUPS_ALLOWED=false \
+  -e INVITATIONS_ALLOWED=false \
+  -v /bw-data/:/data/ \
+  -p 8800:80 \
+  bitwardenrs/server:latest
+</code></pre></div><ul><li>启动管理员页面
+https://github.com/dani-garcia/bitwarden_rs/wiki</li></ul> <h2 id="三、安装nginx做反向代理与支持ssl"><a href="#三、安装nginx做反向代理与支持ssl" class="header-anchor">#</a> 三、安装nginx做反向代理与支持ssl</h2> <ul><li>安装nginx</li></ul> <div class="language- extra-class"><pre class="language-text"><code>sudo apt install nginx
+</code></pre></div><p>修改配置文件开启ssl与反向代理，在<code>/etc/nginx/conf.d</code>下添加配置文件<code>youdomain.com.conf</code>，youdomain.com为用来访问的域名。</p> <p>文件内容：</p> <div class="language- extra-class"><pre class="language-text"><code>server
+    {
+        listen 80;
+        #listen [::]:80;
+        server_name youdomain.com;            #把youdomain.com修改为用来访问的域名
+		rewrite ^/(.*) https://$server_name/$1 permanent;
+    }
+
+server
+    {
+        listen 443 ssl http2;
+        #listen [::]:443 ssl http2;
+        server_name youdomain.com;            #把youdomain.com修改为用来访问的域名
+        
+        location / {
+            proxy_pass http://127.0.0.1:8000;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+  
+        location /notifications/hub {
+            proxy_pass http://127.0.0.1:3012;
+            proxy_set_header Upgrade $http_upgrade;
+            proxy_set_header Connection &quot;upgrade&quot;;
+        }
+  
+        location /notifications/hub/negotiate {
+            proxy_pass http://127.0.0.1:8000;
+        }
+        # 加入robots.txt 防止搜索引擎爬虫抓取
+        location = /robots.txt {
+            root /home/wwwroot/Bitwarden;
+        }
+  }
+</code></pre></div><p>在vhost目录/home/wwwroot/Bitwarden创建一个robots.txt 文件，写入以下内容禁止搜索引擎爬虫抓取</p> <div class="language- extra-class"><pre class="language-text"><code>User-agent: *
+Disallow: /
+</code></pre></div><ul><li>重启nginx</li></ul> <div class="language- extra-class"><pre class="language-text"><code>service nginx restart
+</code></pre></div><h2 id="四、备份数据"><a href="#四、备份数据" class="header-anchor">#</a> 四、备份数据</h2> <p>数据无价,设置定时备份数据库。bitwarden-rs的数据库在<code>/bw-data</code>目录，里面还有密钥文件和网站图标缓存，这些都是可选的，以下脚本只备份数据库。</p> <div class="language- extra-class"><pre class="language-text"><code>#!/bin/bash
+# https://gist.github.com/vitobotta/3a6c53c3693ff77cd0c920d0a541622d#file-bitwarden_rs-backup-sh-L25
+export LC_ALL=C
+
+now=$(date +&quot;%Y%m%d-%H%M%S&quot;)
+parent_dir=&quot;/home/&lt;USER&gt;/bitwarden/bw-data&quot;
+backups_dir=&quot;${parent_dir}/backups&quot;
+log_file=&quot;${backups_dir}/backup-progress.log.${now}&quot;
+tmp_sqlite_backup=&quot;backups/db.sqlite3.${now}&quot;
+archive=&quot;backups/backup.tar.gz.${now}&quot;
+
+error () {
+  printf &quot;%s: %s\n&quot; &quot;$(basename &quot;${BASH_SOURCE}&quot;)&quot; &quot;${1}&quot; &gt;&amp;2
+  exit 1
+}
+
+trap 'error &quot;An unexpected error occurred.&quot;' ERR
+
+take_backup () {
+  cd &quot;${parent_dir}&quot;
+  
+  sqlite3 db.sqlite3 &quot;.backup '${tmp_sqlite_backup}'&quot;
+  /bin/tar czf &quot;${archive}&quot; &quot;${tmp_sqlite_backup}&quot; attachments
+
+  rm &quot;${tmp_sqlite_backup}&quot;
+
+  find &quot;${backups_dir}/&quot; -type f -mtime +30 -exec rm {} \;
+}
+
+printf &quot;\n=======================================================================&quot;
+printf &quot;\nBitwarden Backup&quot;
+printf &quot;\n=======================================================================&quot;
+printf &quot;\nBackup in progress...&quot;
+
+take_backup 2&gt; &quot;${log_file}&quot;
+
+if [[ -s &quot;${log_file}&quot; ]]
+then
+  printf &quot;\nBackup failure! Check ${log_file} for more information.&quot;
+  printf &quot;\n=======================================================================\n\n&quot;
+else
+  rm &quot;${log_file}&quot;
+  printf &quot;...SUCCESS!\n&quot;
+  printf &quot;Backup created at ${backups_dir}/backup.tar.gz.${now}&quot;
+  printf &quot;\n=======================================================================\n\n&quot;
+fi
+</code></pre></div><p>设置定时任务，修改文件 /etc/crontab插入一下内容</p> <div class="language- extra-class"><pre class="language-text"><code>00 1    * * *   root   /home/&lt;USER&gt;/bitwarden/bw-data/backups/bitwarden_rs-backup.sh
+</code></pre></div><p>以上表示，每天凌晨 1 ，root 用户执行一次 <code>bitwarden_rs-backup.sh</code> 脚本。</p> <blockquote><p>后期加邮件提醒</p></blockquote> <p>注册完账号后，把<code>SIGNUPS_ALLOWED</code>选项改成fale重启实例关闭注册。</p></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#一、安装docker" title="一、安装docker">一、安装docker</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#二、部署bitwarden-rs" title="二、部署bitwarden_rs">二、部署bitwarden_rs</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#其他配置" title="其他配置">其他配置</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#三、安装nginx做反向代理与支持ssl" title="三、安装nginx做反向代理与支持ssl">三、安装nginx做反向代理与支持ssl</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#四、备份数据" title="四、备份数据">四、备份数据</a></div></div></div></div> <footer class="footer" data-v-4f6150ea><div class="footer-left-wrap" data-v-4f6150ea><ul class="contact" data-v-4f6150ea><li class="contact-item" data-v-4f6150ea><a href="https://github.com/mhxw" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-4f6150ea><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-4f6150ea><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-4f6150ea></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-4f6150ea><ul class="copyright" data-v-4f6150ea><li class="copyright-item" data-v-4f6150ea>Copyright © 2017-Present Powered by MHXW</li></ul></div></footer></div><div class="global-ui"><!----></div></div>
+    <script src="/note/assets/js/app.36252550.js" defer></script><script src="/note/assets/js/8.2b515bb1.js" defer></script><script src="/note/assets/js/3.f6739d14.js" defer></script><script src="/note/assets/js/20.97e79743.js" defer></script><script src="/note/assets/js/11.103ea2f0.js" defer></script>
+  </body>
+</html>

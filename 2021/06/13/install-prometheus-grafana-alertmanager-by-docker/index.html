@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>使用Docker安装Prometheus+Grafana+AlertManager | MHXW</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/note/logo.png">
+    <link rel="alternate" type="application/rss+xml" href="https://mhxw.life/rss.xml" title="MHXW RSS Feed">
+    <meta name="description" content="
+本篇文章是基于以下三篇的改良和升级，由宿主机安装改为Docker方式安装。
+Prometheus+Grafana监控部署
+Prometheus监控平台AlertManager配置告警
+[Pushg ...">
+    <meta name="MHXW" content="mhxw blog">
+    
+    <link rel="preload" href="/note/assets/css/0.styles.15d6f971.css" as="style"><link rel="preload" href="/note/assets/js/app.36252550.js" as="script"><link rel="preload" href="/note/assets/js/8.2b515bb1.js" as="script"><link rel="preload" href="/note/assets/js/3.f6739d14.js" as="script"><link rel="preload" href="/note/assets/js/31.57fab91c.js" as="script"><link rel="preload" href="/note/assets/js/11.103ea2f0.js" as="script"><link rel="prefetch" href="/note/assets/js/10.6929b2b7.js"><link rel="prefetch" href="/note/assets/js/12.4d636b7f.js"><link rel="prefetch" href="/note/assets/js/13.d93a6436.js"><link rel="prefetch" href="/note/assets/js/14.521720fc.js"><link rel="prefetch" href="/note/assets/js/15.fe7581b1.js"><link rel="prefetch" href="/note/assets/js/16.fd0d2525.js"><link rel="prefetch" href="/note/assets/js/17.bd669e5d.js"><link rel="prefetch" href="/note/assets/js/18.49681434.js"><link rel="prefetch" href="/note/assets/js/19.dff2ad59.js"><link rel="prefetch" href="/note/assets/js/20.97e79743.js"><link rel="prefetch" href="/note/assets/js/21.c93097bc.js"><link rel="prefetch" href="/note/assets/js/22.429da250.js"><link rel="prefetch" href="/note/assets/js/23.730f8451.js"><link rel="prefetch" href="/note/assets/js/24.6eed2fc2.js"><link rel="prefetch" href="/note/assets/js/25.6ccaca11.js"><link rel="prefetch" href="/note/assets/js/26.a22dd40f.js"><link rel="prefetch" href="/note/assets/js/27.78579ce9.js"><link rel="prefetch" href="/note/assets/js/28.b4036104.js"><link rel="prefetch" href="/note/assets/js/29.4aa3c2c4.js"><link rel="prefetch" href="/note/assets/js/30.3a3b493c.js"><link rel="prefetch" href="/note/assets/js/32.47a51bf2.js"><link rel="prefetch" href="/note/assets/js/33.13e1708f.js"><link rel="prefetch" href="/note/assets/js/34.2b92be19.js"><link rel="prefetch" href="/note/assets/js/35.3536a88d.js"><link rel="prefetch" href="/note/assets/js/36.1c3e47e9.js"><link rel="prefetch" href="/note/assets/js/4.638b10e5.js"><link rel="prefetch" href="/note/assets/js/5.e5967abf.js"><link rel="prefetch" href="/note/assets/js/6.c4877f48.js"><link rel="prefetch" href="/note/assets/js/7.e800e18b.js"><link rel="prefetch" href="/note/assets/js/9.632d5cc1.js"><link rel="prefetch" href="/note/assets/js/vuejs-paginate.92caeb0c.js">
+    <link rel="stylesheet" href="/note/assets/css/0.styles.15d6f971.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/note/" class="nav-link home-link">MHXW </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/note/" class="nav-link mobile-home-link">MHXW </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="mobile-nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="mobile-nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        使用Docker安装Prometheus+Grafana+AlertManager
+      </h1> <div class="post-meta"><div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2021-6-13">
+        2021-06-13
+      </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-450235f2><a href="/note/tag/alertmanager" data-v-450235f2><span data-v-450235f2>alertmanager</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/grafana" data-v-450235f2><span data-v-450235f2>grafana</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/prometheus" data-v-450235f2><span data-v-450235f2>prometheus</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h2 id="一、介绍"><a href="#一、介绍" class="header-anchor">#</a> 一、介绍</h2> <p>本篇文章是基于以下三篇的改良和升级，由宿主机安装改为Docker方式安装。</p> <ul><li><a href="/note/_posts/2021-4-25-install-prometheus-on-linux.html">Prometheus+Grafana监控部署</a></li> <li><a href="/note/_posts/2021-5-2-prometheus-alertmanager.html">Prometheus监控平台AlertManager配置告警</a></li> <li><a href="/note/_posts/2021-6-6-pushgateway.html">Pushgateway 的安装和使用</a></li></ul> <p>Prometheus是一款基于时序数据库的开源监控告警系统。</p> <p>主要特性（功能）#</p> <ul><li>多维数据模型（时序由 metric 名字和 k/v 的labels构成）</li> <li>灵活的查询语言（PromQL）</li> <li>无依赖的分布式存储；单节点服务器都是自治的</li> <li>采用 http 协议，使用pull模式拉取数据，简单易懂</li> <li>监控目标，可以采用服务发现和静态配置方式</li> <li>支持多种统计数据模型和界面展示。可以和Grafana结合展示。</li></ul> <h2 id="二、安装-prometheus"><a href="#二、安装-prometheus" class="header-anchor">#</a> 二、安装 Prometheus</h2> <p>1.首先创建一个配置文件 <code>prometheus.yml</code></p> <p><a href="https://github.com/prometheus/prometheus/blob/main/documentation/examples/prometheus.yml" target="_blank" rel="noopener noreferrer">官方模板<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a></p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 创建数据盘目录</span>
+<span class="token function">mkdir</span> -p /mhxw/monitor/prometheus
+</code></pre></div><p>把编辑好的配置文件 <code>prometheus.yml</code> 放置到 <code>prometheus</code> 目录下</p> <div class="language-shell extra-class"><pre class="language-shell"><code>docker run --name<span class="token operator">=</span>prometheus -d -p <span class="token number">20602</span>:9090 <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml <span class="token punctuation">\</span>
+prom/prometheus
+</code></pre></div><p>配置说明</p> <ul><li>--config.file prometheus配置文件路径</li> <li>--storage.tsdb.retention.time 保存时间</li> <li>--storage.tsdb.path 数据存储路径</li> <li>-v：冒号&quot;:&quot;前面的目录是宿主机目录，后面的目录是容器内目录。</li> <li>-p：冒号&quot;:&quot;前面的目录是宿主机端口，后面的目录是容器内端口。</li></ul> <blockquote><p>注意</p> <p>有没有发现默认使用 static_configs 静态配置方式，虽然可以正确配置，但是每次配置都需要重启 Prometheus 服务，当我们需要分批次添加很多 Node 时，频繁重启服务就会造成监控的多次中断，这太不友好了。当然 Prometheus 也提供了多种服务发现方式</p></blockquote> <ul><li>自动发现</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>- labels:
+    name: two
+  targets: <span class="token punctuation">[</span><span class="token string">&quot;148.153.72.214:20406&quot;</span>,<span class="token string">&quot;148.153.72.214:20407&quot;</span>,<span class="token string">&quot;148.153.72.214:20408&quot;</span>,<span class="token string">&quot;148.153.72.214:20409&quot;</span>,<span class="token string">&quot;148.153.72.214:20410&quot;</span><span class="token punctuation">]</span>
+</code></pre></div><h2 id="三、安装-node-exporter"><a href="#三、安装-node-exporter" class="header-anchor">#</a> 三、安装 node-exporter</h2> <p>编辑 <code>prometheus.yml</code> 将node_exporter加上。</p> <div class="language-shell extra-class"><pre class="language-shell"><code>  - job_name: <span class="token string">'node_exporter'</span>
+    static_configs:
+    - targets: <span class="token punctuation">[</span><span class="token string">&quot;localhost:14202&quot;</span><span class="token punctuation">]</span>
+</code></pre></div><ul><li>安装并启动</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>docker run -d <span class="token punctuation">\</span>
+  --net<span class="token operator">=</span><span class="token string">&quot;host&quot;</span> <span class="token punctuation">\</span>
+  --pid<span class="token operator">=</span><span class="token string">&quot;host&quot;</span> <span class="token punctuation">\</span>
+  --name<span class="token operator">=</span>node-exporter <span class="token punctuation">\</span>
+  -v <span class="token string">&quot;/:/host:ro,rslave&quot;</span> <span class="token punctuation">\</span>
+  prom/node-exporter <span class="token punctuation">\</span>
+  --path.rootfs /host
+</code></pre></div><ul><li>重启docker prometheus，让刚才修改的配置生效</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>docker restart prometheus
+</code></pre></div><h2 id="四、安装-grafana"><a href="#四、安装-grafana" class="header-anchor">#</a> 四、安装 Grafana</h2> <div class="language-shell extra-class"><pre class="language-shell"><code>docker run -d -p <span class="token number">14206</span>:3000 --name<span class="token operator">=</span>grafana grafana/grafana
+</code></pre></div><p>在浏览器输入 ip:端口 显示 grafana 则表示安装成功</p> <h2 id="五、安装alertmanager"><a href="#五、安装alertmanager" class="header-anchor">#</a> 五、安装AlertManager</h2> <blockquote><p>注意</p> <p>AlertManager 默认配置文件为<code>alertmanager.yml</code>,AlertManager容器内的配置文件为：<code>/etc/alertmanager/alertmanager.yml</code></p></blockquote> <ul><li>启动 AlertManager</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>docker run -d -p <span class="token number">14207</span>:9093 --name alertmanager <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/:/etc/alertmanager/config/ <span class="token punctuation">\</span>
+prom/alertmanager
+</code></pre></div><ul><li>AlertManager 参考文件</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>global:
+  resolve_timeout: 5m
+  smtp_smarthost: <span class="token string">&quot;smtp.qq.com:587&quot;</span>
+  smtp_from: <span class="token string">&quot;xxxx@qq.com&quot;</span>
+  smtp_auth_username: <span class="token string">&quot;xxxx@qq.com&quot;</span>
+  <span class="token comment">#邮箱专用授权码</span>
+  smtp_auth_password: <span class="token string">&quot;xxxx&quot;</span>
+  <span class="token comment">#关闭TLS授权</span>
+  smtp_require_tls: <span class="token boolean">true</span>
+
+<span class="token comment">#自定义告警模板</span>
+templates:
+  - <span class="token string">&quot;/etc/alertmanager/config/alert-temp/*.tmpl&quot;</span>
+
+route:
+  group_by: <span class="token punctuation">[</span><span class="token string">'swarm_status'</span>,<span class="token string">'node_status'</span><span class="token punctuation">]</span>
+  group_wait: 30s
+  group_interval: 20m
+  repeat_interval: 1h
+  receiver: <span class="token string">'swarm_receiver'</span>
+receivers:
+- name: <span class="token string">'swarm_receiver'</span>
+  email_configs:
+    - to: <span class="token string">'xxxx@qq.com'</span>
+      send_resolved: <span class="token boolean">true</span>
+inhibit_rules:
+  - source_match:
+      severity: <span class="token string">'critical'</span>
+    target_match:
+      severity: <span class="token string">'warning'</span>
+    equal: <span class="token punctuation">[</span><span class="token string">'alertname'</span>, <span class="token string">'dev'</span>, <span class="token string">'instance'</span><span class="token punctuation">]</span>
+</code></pre></div><ul><li>重新配置 Prometheus</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>alerting:
+  alertmanagers:
+  - static_configs:
+    - targets: <span class="token punctuation">[</span><span class="token string">'172.31.10.69:14207'</span><span class="token punctuation">]</span>
+</code></pre></div><ul><li>配置说明：</li></ul> <p>告诉prometheus，放生告警时，将告警信息发送到Alertmanager，Alertmanager地址为 http://172.31.10.69:14207</p> <ul><li>删除Prometheus之前容器，重新运行</li></ul> <ol><li><p>先用<code>docker ps</code>查看prometheus容器ID</p></li> <li><p>停掉容器 <code>docker stop ***</code></p></li></ol> <div class="language-shell extra-class"><pre class="language-shell"><code>docker stop prometheus
+</code></pre></div><ol start="3"><li>删掉这个容器 <code>docker rm ***</code></li></ol> <div class="language-shell extra-class"><pre class="language-shell"><code>docker <span class="token function">rm</span> prometheus
+</code></pre></div><ul><li>重新启动容器</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>docker run --name<span class="token operator">=</span>prometheus -d -p <span class="token number">14204</span>:9090 <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/zhangZhang.yml:/etc/prometheus/zhangZhang.yml <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/mhxw_node_exporter.yml:/etc/prometheus/mhxw_node_exporter.yml <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/laoCui.yml:/etc/prometheus/laoCui.yml <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/rules/alert-rules-node.yml:/etc/prometheus/rules/alert-rules-node.yml <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/rules/alert-rules-mhxw.yml:/etc/prometheus/rules/alert-rules-mhxw.yml <span class="token punctuation">\</span>
+prom/prometheus
+</code></pre></div><div class="language-shell extra-class"><pre class="language-shell"><code>docker run --name<span class="token operator">=</span>prometheus -d -p <span class="token number">14204</span>:9090 <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/:/etc/prometheus/config/ <span class="token punctuation">\</span>
+prom/prometheus
+</code></pre></div><h2 id="参考链接"><a href="#参考链接" class="header-anchor">#</a> 参考链接</h2> <div class="language-shell extra-class"><pre class="language-shell"><code>https://cloud.tencent.com/developer/article/1486483
+</code></pre></div><h2 id="常用命令"><a href="#常用命令" class="header-anchor">#</a> 常用命令</h2> <ul><li><p>bee_export</p></li> <li><p>prometheus</p></li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>docker run --name<span class="token operator">=</span>prometheus -d -p <span class="token number">20603</span>:9090 <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml <span class="token punctuation">\</span>
+-v /mhxw/monitor/prometheus/:/etc/prometheus/config/ <span class="token punctuation">\</span>
+prom/prometheus
+
+docker logs -f prometheus
+
+docker stop prometheus
+
+docker <span class="token function">rm</span> prometheus
+</code></pre></div><ul><li>alertmanager</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>docker run -d -p <span class="token number">20604</span>:9093 --name alertmanager <span class="token punctuation">\</span>
+-v /mhxw/prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml <span class="token punctuation">\</span>
+-v /mhxw/prometheus/:/etc/alertmanager/config/ <span class="token punctuation">\</span>
+prom/alertmanager
+
+docker stop alertmanager
+
+docker <span class="token function">rm</span> alertmanager
+</code></pre></div><ul><li>bee_export</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">sudo</span> docker run --restart unless-stopped <span class="token punctuation">\</span>
+  -d -p <span class="token number">20601</span>:20601 <span class="token punctuation">\</span>
+	--name<span class="token operator">=</span>bee_export <span class="token punctuation">\</span>
+	--log-opt max-size<span class="token operator">=</span>20m <span class="token punctuation">\</span>
+	--log-opt max-file<span class="token operator">=</span><span class="token number">3</span> <span class="token punctuation">\</span>
+	-v /mhxw/monitor/bee_export/info.json:/usr/local/bin/info.json <span class="token punctuation">\</span>
+	sgswarm/bee_export:0.0.6 -path /usr/local/bin/info.json
+
+docker stop bee_export
+
+docker <span class="token function">rm</span> bee_export
+</code></pre></div><h2 id="常见错误处理"><a href="#常见错误处理" class="header-anchor">#</a> 常见错误处理</h2> <ul><li>问题一</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token assign-left variable">level</span><span class="token operator">=</span>error <span class="token assign-left variable">ts</span><span class="token operator">=</span><span class="token number">2021</span>-06-25T02:55:06.818Z <span class="token assign-left variable">caller</span><span class="token operator">=</span>query_logger.go:87 <span class="token assign-left variable">component</span><span class="token operator">=</span>activeQueryTracker <span class="token assign-left variable">msg</span><span class="token operator">=</span><span class="token string">&quot;Error opening query log file&quot;</span> <span class="token assign-left variable">file</span><span class="token operator">=</span>/prometheus/queries.active <span class="token assign-left variable">err</span><span class="token operator">=</span><span class="token string">&quot;open /prometheus/queries.active: permission denied&quot;</span>
+panic: Unable to create mmap-ed active query log
+
+goroutine <span class="token number">1</span> <span class="token punctuation">[</span>running<span class="token punctuation">]</span>:
+github.com/prometheus/prometheus/promql.NewActiveQueryTracker<span class="token punctuation">(</span>0x7ffde0177f57, 0xb, 0x14, 0x375eea0, 0xc000092c80, 0x375eea0<span class="token punctuation">)</span>
+        /app/promql/query_logger.go:117 +0x4e8
+main.main<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        /app/cmd/prometheus/main.go:462 +0x5990
+</code></pre></div><p>启动命令造成</p> <div class="language-shell extra-class"><pre class="language-shell"><code>-v /mhxw/monitor/prometheus/data:/prometheus <span class="token punctuation">\</span>
+</code></pre></div><ul><li>问题二</li></ul> <p>docker启动时候，prometheus命令放在镜像名后面</p></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#一、介绍" title="一、介绍">一、介绍</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#二、安装-prometheus" title="二、安装 Prometheus">二、安装 Prometheus</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#三、安装-node-exporter" title="三、安装 node-exporter">三、安装 node-exporter</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#四、安装-grafana" title="四、安装 Grafana">四、安装 Grafana</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#五、安装alertmanager" title="五、安装AlertManager">五、安装AlertManager</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#参考链接" title="参考链接">参考链接</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#常用命令" title="常用命令">常用命令</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#常见错误处理" title="常见错误处理">常见错误处理</a></div></div></div></div> <footer class="footer" data-v-4f6150ea><div class="footer-left-wrap" data-v-4f6150ea><ul class="contact" data-v-4f6150ea><li class="contact-item" data-v-4f6150ea><a href="https://github.com/mhxw" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-4f6150ea><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-4f6150ea><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-4f6150ea></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-4f6150ea><ul class="copyright" data-v-4f6150ea><li class="copyright-item" data-v-4f6150ea>Copyright © 2017-Present Powered by MHXW</li></ul></div></footer></div><div class="global-ui"><!----></div></div>
+    <script src="/note/assets/js/app.36252550.js" defer></script><script src="/note/assets/js/8.2b515bb1.js" defer></script><script src="/note/assets/js/3.f6739d14.js" defer></script><script src="/note/assets/js/31.57fab91c.js" defer></script><script src="/note/assets/js/11.103ea2f0.js" defer></script>
+  </body>
+</html>

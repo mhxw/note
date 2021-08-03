@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Linux下查找进程id并强制停止进程的脚本 | MHXW</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/note/logo.png">
+    <link rel="alternate" type="application/rss+xml" href="https://mhxw.life/rss.xml" title="MHXW RSS Feed">
+    <meta name="description" content="写一个简易脚本用来自动获取进程id并优雅关闭进程
+
+思路
+
+1、先获取进程id的方法，可以采用awk命令来获取
+
+> 这里要把这个grep这个用 -v 来过滤掉，然后用awk命令，提取第2个参数就是进程id了
+
+ps -ef | grep 你的进程 | grep -v grep | awk '{print $2}'
+
+关 ...">
+    <meta name="MHXW" content="mhxw blog">
+    
+    <link rel="preload" href="/note/assets/css/0.styles.15d6f971.css" as="style"><link rel="preload" href="/note/assets/js/app.36252550.js" as="script"><link rel="preload" href="/note/assets/js/8.2b515bb1.js" as="script"><link rel="preload" href="/note/assets/js/3.f6739d14.js" as="script"><link rel="preload" href="/note/assets/js/25.6ccaca11.js" as="script"><link rel="preload" href="/note/assets/js/11.103ea2f0.js" as="script"><link rel="prefetch" href="/note/assets/js/10.6929b2b7.js"><link rel="prefetch" href="/note/assets/js/12.4d636b7f.js"><link rel="prefetch" href="/note/assets/js/13.d93a6436.js"><link rel="prefetch" href="/note/assets/js/14.521720fc.js"><link rel="prefetch" href="/note/assets/js/15.fe7581b1.js"><link rel="prefetch" href="/note/assets/js/16.fd0d2525.js"><link rel="prefetch" href="/note/assets/js/17.bd669e5d.js"><link rel="prefetch" href="/note/assets/js/18.49681434.js"><link rel="prefetch" href="/note/assets/js/19.dff2ad59.js"><link rel="prefetch" href="/note/assets/js/20.97e79743.js"><link rel="prefetch" href="/note/assets/js/21.c93097bc.js"><link rel="prefetch" href="/note/assets/js/22.429da250.js"><link rel="prefetch" href="/note/assets/js/23.730f8451.js"><link rel="prefetch" href="/note/assets/js/24.6eed2fc2.js"><link rel="prefetch" href="/note/assets/js/26.a22dd40f.js"><link rel="prefetch" href="/note/assets/js/27.78579ce9.js"><link rel="prefetch" href="/note/assets/js/28.b4036104.js"><link rel="prefetch" href="/note/assets/js/29.4aa3c2c4.js"><link rel="prefetch" href="/note/assets/js/30.3a3b493c.js"><link rel="prefetch" href="/note/assets/js/31.57fab91c.js"><link rel="prefetch" href="/note/assets/js/32.47a51bf2.js"><link rel="prefetch" href="/note/assets/js/33.13e1708f.js"><link rel="prefetch" href="/note/assets/js/34.2b92be19.js"><link rel="prefetch" href="/note/assets/js/35.3536a88d.js"><link rel="prefetch" href="/note/assets/js/36.1c3e47e9.js"><link rel="prefetch" href="/note/assets/js/4.638b10e5.js"><link rel="prefetch" href="/note/assets/js/5.e5967abf.js"><link rel="prefetch" href="/note/assets/js/6.c4877f48.js"><link rel="prefetch" href="/note/assets/js/7.e800e18b.js"><link rel="prefetch" href="/note/assets/js/9.632d5cc1.js"><link rel="prefetch" href="/note/assets/js/vuejs-paginate.92caeb0c.js">
+    <link rel="stylesheet" href="/note/assets/css/0.styles.15d6f971.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/note/" class="nav-link home-link">MHXW </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/note/" class="nav-link mobile-home-link">MHXW </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="mobile-nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="mobile-nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        Linux下查找进程id并强制停止进程的脚本
+      </h1> <div class="post-meta"><div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2021-5-23">
+        2021-05-23
+      </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-450235f2><a href="/note/tag/linux" data-v-450235f2><span data-v-450235f2>linux</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/shell" data-v-450235f2><span data-v-450235f2>shell</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><p>写一个简易脚本用来自动获取进程id并优雅关闭进程</p> <h2 id="思路"><a href="#思路" class="header-anchor">#</a> 思路</h2> <p>1、先获取进程id的方法，可以采用<code>awk</code>命令来获取</p> <blockquote><p>这里要把这个grep这个用 -v 来过滤掉，然后用awk命令，提取第2个参数就是进程id了</p></blockquote> <div class="language-markdown extra-class"><pre class="language-markdown"><code>ps -ef | grep 你的进程 | grep -v grep | awk '{print $2}'
+</code></pre></div><ol start="2"><li>关闭进程</li></ol> <div class="language-markdown extra-class"><pre class="language-markdown"><code>kill -15 你的进程id
+</code></pre></div><h2 id="脚本代码"><a href="#脚本代码" class="header-anchor">#</a> 脚本代码</h2> <blockquote><p>注意：使用时，需要把第一行的 sp-tomcat 替换换成你希望杀的进程</p></blockquote> <blockquote><p>说明：可能有人会说查找进程出现多个进程id时，脚本会报错的。其实是不会的，出现多个进程id时，他们之间是有空格隔开来了的。刚好kill命令一次杀多个进程时，进程id需要用空格。所以不需要用for循环来杀进程</p></blockquote> <div class="language- extra-class"><pre class="language-text"><code>mhxw_pid=`ps -ef | grep sp-tomcat | grep -v grep | awk '{print $2}'`
+if [ -z &quot;$mhxw_pid&quot; ];
+then
+  echo &quot;[ not find sp-tomcat pid ]&quot;
+else
+  echo &quot;find result: $sp_pid &quot;
+  kill -15 $sp_pid
+fi
+</code></pre></div></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#思路" title="思路">思路</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#脚本代码" title="脚本代码">脚本代码</a></div></div></div></div> <footer class="footer" data-v-4f6150ea><div class="footer-left-wrap" data-v-4f6150ea><ul class="contact" data-v-4f6150ea><li class="contact-item" data-v-4f6150ea><a href="https://github.com/mhxw" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-4f6150ea><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-4f6150ea><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-4f6150ea></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-4f6150ea><ul class="copyright" data-v-4f6150ea><li class="copyright-item" data-v-4f6150ea>Copyright © 2017-Present Powered by MHXW</li></ul></div></footer></div><div class="global-ui"><!----></div></div>
+    <script src="/note/assets/js/app.36252550.js" defer></script><script src="/note/assets/js/8.2b515bb1.js" defer></script><script src="/note/assets/js/3.f6739d14.js" defer></script><script src="/note/assets/js/25.6ccaca11.js" defer></script><script src="/note/assets/js/11.103ea2f0.js" defer></script>
+  </body>
+</html>

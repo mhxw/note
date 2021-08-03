@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Ubuntu 18.04 安装Docker到指定目录和Docker安装MySQL8.0 | MHXW</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/note/logo.png">
+    <link rel="alternate" type="application/rss+xml" href="https://mhxw.life/rss.xml" title="MHXW RSS Feed">
+    <meta name="description" content="
+
+Docker 默认安装的情况下，会使用 /var/lib/docker/ 目录作为存储目录，用以存放拉取的镜像和创建的容器等。不过由于此目录一般都位于系统盘，遇到系统盘比较小，而镜像和容器多了后就容易尴尬，这里说明一下如何修改 Docker 的存储目录。
+
+Docker 安装
+
+https://docs.docker.com/engine/install/ubunt ...">
+    <meta name="MHXW" content="mhxw blog">
+    
+    <link rel="preload" href="/note/assets/css/0.styles.15d6f971.css" as="style"><link rel="preload" href="/note/assets/js/app.36252550.js" as="script"><link rel="preload" href="/note/assets/js/8.2b515bb1.js" as="script"><link rel="preload" href="/note/assets/js/3.f6739d14.js" as="script"><link rel="preload" href="/note/assets/js/23.730f8451.js" as="script"><link rel="preload" href="/note/assets/js/11.103ea2f0.js" as="script"><link rel="prefetch" href="/note/assets/js/10.6929b2b7.js"><link rel="prefetch" href="/note/assets/js/12.4d636b7f.js"><link rel="prefetch" href="/note/assets/js/13.d93a6436.js"><link rel="prefetch" href="/note/assets/js/14.521720fc.js"><link rel="prefetch" href="/note/assets/js/15.fe7581b1.js"><link rel="prefetch" href="/note/assets/js/16.fd0d2525.js"><link rel="prefetch" href="/note/assets/js/17.bd669e5d.js"><link rel="prefetch" href="/note/assets/js/18.49681434.js"><link rel="prefetch" href="/note/assets/js/19.dff2ad59.js"><link rel="prefetch" href="/note/assets/js/20.97e79743.js"><link rel="prefetch" href="/note/assets/js/21.c93097bc.js"><link rel="prefetch" href="/note/assets/js/22.429da250.js"><link rel="prefetch" href="/note/assets/js/24.6eed2fc2.js"><link rel="prefetch" href="/note/assets/js/25.6ccaca11.js"><link rel="prefetch" href="/note/assets/js/26.a22dd40f.js"><link rel="prefetch" href="/note/assets/js/27.78579ce9.js"><link rel="prefetch" href="/note/assets/js/28.b4036104.js"><link rel="prefetch" href="/note/assets/js/29.4aa3c2c4.js"><link rel="prefetch" href="/note/assets/js/30.3a3b493c.js"><link rel="prefetch" href="/note/assets/js/31.57fab91c.js"><link rel="prefetch" href="/note/assets/js/32.47a51bf2.js"><link rel="prefetch" href="/note/assets/js/33.13e1708f.js"><link rel="prefetch" href="/note/assets/js/34.2b92be19.js"><link rel="prefetch" href="/note/assets/js/35.3536a88d.js"><link rel="prefetch" href="/note/assets/js/36.1c3e47e9.js"><link rel="prefetch" href="/note/assets/js/4.638b10e5.js"><link rel="prefetch" href="/note/assets/js/5.e5967abf.js"><link rel="prefetch" href="/note/assets/js/6.c4877f48.js"><link rel="prefetch" href="/note/assets/js/7.e800e18b.js"><link rel="prefetch" href="/note/assets/js/9.632d5cc1.js"><link rel="prefetch" href="/note/assets/js/vuejs-paginate.92caeb0c.js">
+    <link rel="stylesheet" href="/note/assets/css/0.styles.15d6f971.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/note/" class="nav-link home-link">MHXW </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/note/" class="nav-link mobile-home-link">MHXW </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="mobile-nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="mobile-nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        Ubuntu 18.04 安装Docker到指定目录和Docker安装MySQL8.0
+      </h1> <div class="post-meta"><div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2021-5-16">
+        2021-05-16
+      </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-450235f2><a href="/note/tag/ubuntu" data-v-450235f2><span data-v-450235f2>ubuntu</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/docker" data-v-450235f2><span data-v-450235f2>docker</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/mysql" data-v-450235f2><span data-v-450235f2>mysql</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h2 id="概要"><a href="#概要" class="header-anchor">#</a> 概要</h2> <p>Docker 默认安装的情况下，会使用 <code>/var/lib/docker/</code> 目录作为存储目录，用以存放拉取的镜像和创建的容器等。不过由于此目录一般都位于系统盘，遇到系统盘比较小，而镜像和容器多了后就容易尴尬，这里说明一下如何修改 Docker 的存储目录。</p> <h2 id="docker-安装"><a href="#docker-安装" class="header-anchor">#</a> Docker 安装</h2> <div class="language-shell extra-class"><pre class="language-shell"><code>https://docs.docker.com/engine/install/ubuntu/
+</code></pre></div><h2 id="查看docker相关信息"><a href="#查看docker相关信息" class="header-anchor">#</a> 查看Docker相关信息</h2> <div class="language- extra-class"><pre class="language-text"><code>docker info
+</code></pre></div><div class="language-shell extra-class"><pre class="language-shell"><code>Client:
+ Context:    default
+ Debug Mode: <span class="token boolean">false</span>
+ Plugins:
+  app: Docker App <span class="token punctuation">(</span>Docker Inc., v0.9.1-beta3<span class="token punctuation">)</span>
+  buildx: Build with BuildKit <span class="token punctuation">(</span>Docker Inc., v0.5.1-docker<span class="token punctuation">)</span>
+  scan: Docker Scan <span class="token punctuation">(</span>Docker Inc., v0.7.0<span class="token punctuation">)</span>
+
+Server:
+ Containers: <span class="token number">0</span>
+  Running: <span class="token number">0</span>
+  Paused: <span class="token number">0</span>
+  Stopped: <span class="token number">0</span>
+ Images: <span class="token number">0</span>
+ Server Version: <span class="token number">20.10</span>.6
+ Storage Driver: overlay2
+  Backing Filesystem: extfs
+  Supports d_type: <span class="token boolean">true</span>
+  Native Overlay Diff: <span class="token boolean">true</span>
+  userxattr: <span class="token boolean">false</span>
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: <span class="token number">1</span>
+ Plugins:
+  Volume: <span class="token builtin class-name">local</span>
+  Network: bridge <span class="token function">host</span> ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file <span class="token builtin class-name">local</span> logentries splunk syslog
+Swarm: inactive
+ Runtimes: io.containerd.runc.v2 io.containerd.runtime.v1.linux runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 05f951a3781f4f2c1911b05e61c160e9c30eaa8e
+ runc version: 12644e614e25b05da6fd08a38ffa0cfe1903fdec
+ init version: de40ad0
+ Security Options:
+  apparmor
+  seccomp
+   Profile: default
+ Kernel Version: <span class="token number">4.15</span>.0-117-generic
+ Operating System: Ubuntu <span class="token number">18.04</span>.5 LTS
+ OSType: linux
+ Architecture: x86_64
+ CPUs: <span class="token number">2</span>
+ Total Memory: <span class="token number">7</span>.65GiB
+ Name: mhxw server
+ ID: LUSA:YHYP:6LCZ:FUPS:XMG2:YSLR:73V7:724D:3HRD:VWFM:FXXF:NXWU
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: <span class="token boolean">false</span>
+ Registry: https://index.docker.io/v1/
+ Labels:
+ Experimental: <span class="token boolean">false</span>
+ Insecure Registries:
+  <span class="token number">127.0</span>.0.0/8
+ Live Restore Enabled: <span class="token boolean">false</span>
+</code></pre></div><h2 id="修改-docker-的默认存储路径"><a href="#修改-docker-的默认存储路径" class="header-anchor">#</a> 修改 Docker 的默认存储路径</h2> <p>官方文档的修改办法是编辑 <code>/etc/docker/daemon.json</code> 文件：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">vi</span> /etc/docker/daemon.json
+</code></pre></div><p>默认情况下这个配置文件是没有的，这里实际也就是新建一个，然后写入以下内容：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token punctuation">{</span>
+  <span class="token string">&quot;data-root&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;/mhxw/docker&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>此文件还涉及默认源的设定，如果设定了国内源，那么实际就是在源地址下方加一行，写成：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token punctuation">{</span>
+  <span class="token string">&quot;registry-mirrors&quot;</span><span class="token builtin class-name">:</span> <span class="token punctuation">[</span><span class="token string">&quot;http://hub-mirror.c.163.com&quot;</span><span class="token punctuation">]</span>,
+  <span class="token string">&quot;data-root&quot;</span><span class="token builtin class-name">:</span> <span class="token string">&quot;/mhxw/docker&quot;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><p>保存退出，然后重启 docker 服务：</p> <div class="language-shell extra-class"><pre class="language-shell"><code>systemctl restart docker
+</code></pre></div><p>再次查看 docker 信息，可以看到目录已经变成了设定的<code>/mhxw/docker</code>:</p> <h2 id="docker-安装-mysql8-0"><a href="#docker-安装-mysql8-0" class="header-anchor">#</a> Docker 安装 MySQL8.0</h2> <ul><li>docker 仓库拉取mysql8.0</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>docker pull mysql:8.0
+</code></pre></div><ul><li>查看本地仓库镜像是否下载成功</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>docker images
+</code></pre></div><ul><li>安装运行mysql8.0</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>docker run -p 本地主机端口号:容器服务端口号 --name 容器名字 <span class="token punctuation">[</span>-e 配置信息修改<span class="token punctuation">]</span> -d 镜像名字
+</code></pre></div><div class="language-shell extra-class"><pre class="language-shell"><code>docker run -p <span class="token number">44377</span>:3306 --name mysql8.0 -e <span class="token assign-left variable">MYSQL_ROOT_PASSWORD</span><span class="token operator">=</span>root -d mysql:8.0
+</code></pre></div></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#概要" title="概要">概要</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#docker-安装" title="Docker 安装">Docker 安装</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#查看docker相关信息" title="查看Docker相关信息">查看Docker相关信息</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#修改-docker-的默认存储路径" title="修改 Docker 的默认存储路径">修改 Docker 的默认存储路径</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#docker-安装-mysql8-0" title="Docker 安装 MySQL8.0">Docker 安装 MySQL8.0</a></div></div></div></div> <footer class="footer" data-v-4f6150ea><div class="footer-left-wrap" data-v-4f6150ea><ul class="contact" data-v-4f6150ea><li class="contact-item" data-v-4f6150ea><a href="https://github.com/mhxw" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-4f6150ea><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-4f6150ea><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-4f6150ea></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-4f6150ea><ul class="copyright" data-v-4f6150ea><li class="copyright-item" data-v-4f6150ea>Copyright © 2017-Present Powered by MHXW</li></ul></div></footer></div><div class="global-ui"><!----></div></div>
+    <script src="/note/assets/js/app.36252550.js" defer></script><script src="/note/assets/js/8.2b515bb1.js" defer></script><script src="/note/assets/js/3.f6739d14.js" defer></script><script src="/note/assets/js/23.730f8451.js" defer></script><script src="/note/assets/js/11.103ea2f0.js" defer></script>
+  </body>
+</html>

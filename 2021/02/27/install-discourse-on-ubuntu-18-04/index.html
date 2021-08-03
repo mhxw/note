@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>在Ubuntu 18.04上安装Discourse Docker镜像 | MHXW</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/note/logo.png">
+    <link rel="alternate" type="application/rss+xml" href="https://mhxw.life/rss.xml" title="MHXW RSS Feed">
+    <meta name="description" content="
+Discourse是一个开源的讨论平台。您可以将Discourse用作邮件列表，讨论论坛或长型聊天室。在本教程中，您将使用Docker在独立的环境中安装Discourse。
+Docker环境中安装Discourse，并配置独立的Nginx和SSL
+准备环境
+一台至少具有2GB RAM的Ubuntu 18.04服务器，一个sudo非root用户和一个防火墙。
+安 ...">
+    <meta name="MHXW" content="mhxw blog">
+    
+    <link rel="preload" href="/note/assets/css/0.styles.15d6f971.css" as="style"><link rel="preload" href="/note/assets/js/app.36252550.js" as="script"><link rel="preload" href="/note/assets/js/8.2b515bb1.js" as="script"><link rel="preload" href="/note/assets/js/3.f6739d14.js" as="script"><link rel="preload" href="/note/assets/js/19.dff2ad59.js" as="script"><link rel="preload" href="/note/assets/js/11.103ea2f0.js" as="script"><link rel="prefetch" href="/note/assets/js/10.6929b2b7.js"><link rel="prefetch" href="/note/assets/js/12.4d636b7f.js"><link rel="prefetch" href="/note/assets/js/13.d93a6436.js"><link rel="prefetch" href="/note/assets/js/14.521720fc.js"><link rel="prefetch" href="/note/assets/js/15.fe7581b1.js"><link rel="prefetch" href="/note/assets/js/16.fd0d2525.js"><link rel="prefetch" href="/note/assets/js/17.bd669e5d.js"><link rel="prefetch" href="/note/assets/js/18.49681434.js"><link rel="prefetch" href="/note/assets/js/20.97e79743.js"><link rel="prefetch" href="/note/assets/js/21.c93097bc.js"><link rel="prefetch" href="/note/assets/js/22.429da250.js"><link rel="prefetch" href="/note/assets/js/23.730f8451.js"><link rel="prefetch" href="/note/assets/js/24.6eed2fc2.js"><link rel="prefetch" href="/note/assets/js/25.6ccaca11.js"><link rel="prefetch" href="/note/assets/js/26.a22dd40f.js"><link rel="prefetch" href="/note/assets/js/27.78579ce9.js"><link rel="prefetch" href="/note/assets/js/28.b4036104.js"><link rel="prefetch" href="/note/assets/js/29.4aa3c2c4.js"><link rel="prefetch" href="/note/assets/js/30.3a3b493c.js"><link rel="prefetch" href="/note/assets/js/31.57fab91c.js"><link rel="prefetch" href="/note/assets/js/32.47a51bf2.js"><link rel="prefetch" href="/note/assets/js/33.13e1708f.js"><link rel="prefetch" href="/note/assets/js/34.2b92be19.js"><link rel="prefetch" href="/note/assets/js/35.3536a88d.js"><link rel="prefetch" href="/note/assets/js/36.1c3e47e9.js"><link rel="prefetch" href="/note/assets/js/4.638b10e5.js"><link rel="prefetch" href="/note/assets/js/5.e5967abf.js"><link rel="prefetch" href="/note/assets/js/6.c4877f48.js"><link rel="prefetch" href="/note/assets/js/7.e800e18b.js"><link rel="prefetch" href="/note/assets/js/9.632d5cc1.js"><link rel="prefetch" href="/note/assets/js/vuejs-paginate.92caeb0c.js">
+    <link rel="stylesheet" href="/note/assets/css/0.styles.15d6f971.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/note/" class="nav-link home-link">MHXW </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/note/" class="nav-link mobile-home-link">MHXW </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="mobile-nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="mobile-nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        在Ubuntu 18.04上安装Discourse Docker镜像
+      </h1> <div class="post-meta"><div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2021-2-27">
+        2021-02-27
+      </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-450235f2><a href="/note/tag/docker" data-v-450235f2><span data-v-450235f2>docker</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/ubuntu" data-v-450235f2><span data-v-450235f2>ubuntu</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/discourse" data-v-450235f2><span data-v-450235f2>discourse</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h2 id="介绍"><a href="#介绍" class="header-anchor">#</a> 介绍</h2> <p>Discourse是一个开源的讨论平台。您可以将Discourse用作邮件列表，讨论论坛或长型聊天室。在本教程中，您将使用Docker在独立的环境中安装Discourse。
+Docker环境中安装Discourse，并配置独立的Nginx和SSL</p> <h2 id="准备环境"><a href="#准备环境" class="header-anchor">#</a> 准备环境</h2> <ul><li>一台至少具有2GB RAM的Ubuntu 18.04服务器，一个sudo非root用户和一个防火墙。</li> <li>安装nginx</li> <li>安装Docker</li> <li>域名的A记录指向部署服务器IP</li> <li>SMTP 邮件服务器 （本教程中使用QQ邮箱）</li></ul> <h2 id="下载discourse"><a href="#下载discourse" class="header-anchor">#</a> 下载Discourse</h2> <p>在下载和安装Discourse之前，请创建/var/discourse目录。这是您所有与Discourse相关的文件所在的位置：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">sudo</span> <span class="token function">mkdir</span> /var/discourse
+</code></pre></div><p>最后，将官方 <a href="https://github.com/discourse/discourse_docker" target="_blank" rel="noopener noreferrer">Discourse Docker Image<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 复制到/var/discourse：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">sudo</span> <span class="token function">git</span> clone https://github.com/discourse/discourse_docker.git /var/discourse
+</code></pre></div><p>进入Discourse目录：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token builtin class-name">cd</span> /var/discourse
+</code></pre></div><p>将独立的样本配置文件复制到<code>container/app.yml</code>：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">cp</span> samples/standalone.yml containers/app.yml
+</code></pre></div><h2 id="编辑discourse配置"><a href="#编辑discourse配置" class="header-anchor">#</a> 编辑Discourse配置</h2> <p>编辑<code>container/app.yml</code>文件：</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">vim</span> containers/app.yml
+</code></pre></div><ol><li>先修改以下几处内容</li></ol> <p>域名修改、SMTP服务器参数修改</p> <ul><li>gov.mhxw.life：论坛域名</li> <li>admin@mhxw.life：管理员邮箱</li> <li>xxxx@foxmail.com：发送信息邮箱</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># 网站域名</span>
+DISCOURSE_HOSTNAME: <span class="token string">'gov.mhxw.life'</span>
+<span class="token comment"># 管理员邮箱</span>
+DISCOURSE_DEVELOPER_EMAILS: <span class="token string">'admin@mhxw.life'</span>
+
+DISCOURSE_SMTP_ADDRESS: smtp.qq.com
+DISCOURSE_SMTP_PORT: <span class="token number">587</span>
+DISCOURSE_SMTP_USER_NAME: xxxx@foxmail.com
+<span class="token comment"># qq邮箱授权码 在qq邮箱=》设置=》账户=》开启smtp服务</span>
+DISCOURSE_SMTP_PASSWORD:<span class="token string">&quot;pwd&quot;</span>
+DISCOURSE_SMTP_ENABLE_START_TLS: <span class="token boolean">true</span> 
+
+<span class="token comment">## 发件邮箱：配置文件最底下找这一行</span>
+- exec: rails r <span class="token string">&quot;SiteSetting.notification_email='xxxx@foxmail.com'&quot;</span>
+</code></pre></div><ol start="2"><li>注释掉中的所有ssl模板templates</li></ol> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment">#- &quot;templates/web.ssl.template.yml&quot;</span>
+<span class="token comment">#- &quot;templates/web.letsencrypt.ssl.template.yml&quot;</span>
+</code></pre></div><ol start="3"><li>注释掉所有暴露的端口：</li></ol> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment">#- &quot;80:80&quot;   # http</span>
+<span class="token comment">#- &quot;443:443&quot; # https</span>
+</code></pre></div><ol start="4"><li>添加套接字模板：</li></ol> <div class="language-shell extra-class"><pre class="language-shell"><code>- <span class="token string">&quot;templates/web.socketed.template.yml&quot;</span>
+</code></pre></div><blockquote><p>注意事项
+套接字模板配置文件中也需要配置discourse.conf文件，如果没有按照路径创建一个并配置</p></blockquote> <p><code>web.socketed.template.yml</code>配置文件如下</p> <div class="language-yml extra-class"><pre class="language-yml"><code><span class="token key atrule">run</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">file</span><span class="token punctuation">:</span>
+     <span class="token key atrule">path</span><span class="token punctuation">:</span> /etc/runit/1.d/remove<span class="token punctuation">-</span>old<span class="token punctuation">-</span>socket
+     <span class="token key atrule">chmod</span><span class="token punctuation">:</span> <span class="token string">&quot;+x&quot;</span>
+     <span class="token key atrule">contents</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+        #!/bin/bash
+        rm -f /shared/nginx.http*.sock</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">file</span><span class="token punctuation">:</span>
+     <span class="token key atrule">path</span><span class="token punctuation">:</span> /etc/runit/3.d/remove<span class="token punctuation">-</span>old<span class="token punctuation">-</span>socket
+     <span class="token key atrule">chmod</span><span class="token punctuation">:</span> <span class="token string">&quot;+x&quot;</span>
+     <span class="token key atrule">contents</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+        #!/bin/bash
+        rm -rf /shared/nginx.http*.sock</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">replace</span><span class="token punctuation">:</span>
+     <span class="token key atrule">filename</span><span class="token punctuation">:</span> <span class="token string">&quot;/etc/nginx/conf.d/discourse.conf&quot;</span>
+     <span class="token key atrule">from</span><span class="token punctuation">:</span> /listen 80;/
+     <span class="token key atrule">to</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+       listen unix:/shared/nginx.http.sock;
+       set_real_ip_from unix:;</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">replace</span><span class="token punctuation">:</span>
+     <span class="token key atrule">filename</span><span class="token punctuation">:</span> <span class="token string">&quot;/etc/nginx/conf.d/discourse.conf&quot;</span>
+     <span class="token key atrule">from</span><span class="token punctuation">:</span> /listen 443 ssl http2;/
+     <span class="token key atrule">to</span><span class="token punctuation">:</span> <span class="token punctuation">|</span><span class="token scalar string">
+       listen unix:/shared/nginx.https.sock ssl http2;
+       set_real_ip_from unix:;</span>
+</code></pre></div><p>discourse.conf配置文件如下（和下面步骤的nginx.conf配置代码块基本一样）</p> <div class="language-shell extra-class"><pre class="language-shell"><code>server <span class="token punctuation">{</span>
+  listen <span class="token number">80</span><span class="token punctuation">;</span>
+  server_name gov.mhxw.life<span class="token punctuation">;</span>
+  <span class="token builtin class-name">return</span> <span class="token number">301</span> https://<span class="token variable">$host</span><span class="token variable">$request_uri</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+server <span class="token punctuation">{</span>
+  listen       <span class="token number">443</span> ssl<span class="token punctuation">;</span>
+  server_name  gov.mhxw.life<span class="token punctuation">;</span>
+
+  ssl_certificate      /mhxw/nginx/conf/ssl/mhxw.crt<span class="token punctuation">;</span>
+  ssl_certificate_key  /mhxw/nginx/conf/ssl/mhxw.key<span class="token punctuation">;</span>
+  ssl_session_timeout 5m<span class="token punctuation">;</span>
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2<span class="token punctuation">;</span> <span class="token comment">#按照这个协议配置</span>
+  ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:HIGH:<span class="token operator">!</span>aNULL:<span class="token operator">!</span>MD5:<span class="token operator">!</span>RC4:<span class="token operator">!</span>DHE<span class="token punctuation">;</span> <span class="token comment">#按照这个套件配置</span>
+  ssl_prefer_server_ciphers on<span class="token punctuation">;</span>
+  access_log  /mhxw/nginx/logs/access.log  main<span class="token punctuation">;</span>
+  error_log  /mhxw/nginx/logs/error.log  debug<span class="token punctuation">;</span>
+
+
+  location / <span class="token punctuation">{</span>
+   add_header Content-Security-Policy <span class="token string">&quot;upgrade-insecure-requests;connect-src *&quot;</span><span class="token punctuation">;</span>
+      proxy_pass http://unix:/var/discourse/shared/standalone/nginx.http.sock:<span class="token punctuation">;</span>
+      proxy_set_header Host <span class="token variable">$http_host</span><span class="token punctuation">;</span>
+      proxy_http_version <span class="token number">1.1</span><span class="token punctuation">;</span>
+      proxy_set_header X-Forwarded-For <span class="token variable">$proxy_add_x_forwarded_for</span><span class="token punctuation">;</span>
+      proxy_set_header X-Forwarded-Proto https<span class="token punctuation">;</span>
+      proxy_set_header X-Real-IP <span class="token variable">$remote_addr</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre></div><ol start="5"><li>以上内容修改好以后，app.yml配置文件如下</li></ol> <div class="language-shell extra-class"><pre class="language-shell"><code>templates:
+  - <span class="token string">&quot;templates/postgres.template.yml&quot;</span>
+  - <span class="token string">&quot;templates/redis.template.yml&quot;</span>
+  - <span class="token string">&quot;templates/web.template.yml&quot;</span>
+  - <span class="token string">&quot;templates/web.ratelimited.template.yml&quot;</span>
+  - <span class="token string">&quot;templates/web.socketed.template.yml&quot;</span>
+<span class="token comment">## Uncomment these two lines if you wish to add Lets Encrypt (https)</span>
+  <span class="token comment">#- &quot;templates/web.ssl.template.yml&quot;</span>
+  <span class="token comment">#- &quot;templates/web.letsencrypt.ssl.template.yml&quot;</span>
+
+<span class="token comment">## which TCP/IP ports should this container expose?</span>
+<span class="token comment">## If you want Discourse to share a port with another webserver like Apache or nginx,</span>
+<span class="token comment">## see https://meta.discourse.org/t/17247 for details</span>
+expose:
+        <span class="token comment">#- &quot;80:80&quot;   # http</span>
+        <span class="token comment">#- &quot;443:443&quot; # https</span>
+
+params:
+  db_default_text_search_config: <span class="token string">&quot;pg_catalog.english&quot;</span>
+
+  <span class="token comment">## Set db_shared_buffers to a max of 25% of the total memory.</span>
+  <span class="token comment">## will be set automatically by bootstrap based on detected RAM, or you can override</span>
+  <span class="token comment">#db_shared_buffers: &quot;256MB&quot;</span>
+
+  <span class="token comment">## can improve sorting performance, but adds memory usage per-connection</span>
+  <span class="token comment">#db_work_mem: &quot;40MB&quot;</span>
+
+  <span class="token comment">## Which Git revision should this container use? (default: tests-passed)</span>
+  <span class="token comment">#version: tests-passed</span>
+
+env:
+  <span class="token environment constant">LANG</span><span class="token builtin class-name">:</span> en_US.UTF-8
+  <span class="token comment"># DISCOURSE_DEFAULT_LOCALE: en</span>
+
+  <span class="token comment">## How many concurrent web requests are supported? Depends on memory and CPU cores.</span>
+  <span class="token comment">## will be set automatically by bootstrap based on detected CPUs, or you can override</span>
+  <span class="token comment">#UNICORN_WORKERS: 3</span>
+
+  <span class="token comment">## TODO: The domain name this Discourse instance will respond to</span>
+  <span class="token comment">## Required. Discourse will not work with a bare IP number.</span>
+  DISCOURSE_HOSTNAME: <span class="token string">'gov.mhxw.life'</span>
+
+  <span class="token comment">## Uncomment if you want the container to be started with the same</span>
+  <span class="token comment">## hostname (-h option) as specified above (default &quot;$hostname-$config&quot;)</span>
+  <span class="token comment">#DOCKER_USE_HOSTNAME: true</span>
+
+  <span class="token comment">## TODO: List of comma delimited emails that will be made admin and developer</span>
+  <span class="token comment">## on initial signup example 'user1@example.com,user2@example.com'</span>
+  DISCOURSE_DEVELOPER_EMAILS: <span class="token string">'admin@mhxw.life'</span>
+
+  <span class="token comment">## TODO: The SMTP mail server used to validate new accounts and send notifications</span>
+  <span class="token comment"># SMTP ADDRESS, username, and password are required</span>
+  <span class="token comment"># WARNING the char '#' in SMTP password can cause problems!</span>
+  DISCOURSE_SMTP_ADDRESS: smtp.qq.com
+  DISCOURSE_SMTP_PORT: <span class="token number">587</span>
+  DISCOURSE_SMTP_USER_NAME: xxxx@foxmail.com
+  DISCOURSE_SMTP_PASSWORD: kknvfghgfqrbcee
+  DISCOURSE_SMTP_ENABLE_START_TLS: <span class="token boolean">true</span>           <span class="token comment"># (optional, default true)</span>
+
+  <span class="token comment">## If you added the Lets Encrypt template, uncomment below to get a free SSL certificate</span>
+  <span class="token comment">#LETSENCRYPT_ACCOUNT_EMAIL: me@example.com</span>
+
+  <span class="token comment">## The http or https CDN address for this Discourse instance (configured to pull)</span>
+  <span class="token comment">## see https://meta.discourse.org/t/14857 for details</span>
+  <span class="token comment">#DISCOURSE_CDN_URL: https://discourse-cdn.example.com</span>
+
+<span class="token comment">## The Docker container is stateless; all data is stored in /shared</span>
+volumes:
+  - volume:
+      host: /var/discourse/shared/standalone
+      guest: /shared
+  - volume:
+      host: /var/discourse/shared/standalone/log/var-log
+      guest: /var/log
+
+<span class="token comment">## Plugins go here</span>
+<span class="token comment">## see https://meta.discourse.org/t/19157 for details</span>
+hooks:
+  after_code:
+    - exec:
+        cd: <span class="token variable">$home</span>/plugins
+        cmd:
+          - <span class="token function">git</span> clone https://github.com/discourse/docker_manager.git
+
+<span class="token comment">## Any custom commands to run after building</span>
+run:
+  - exec: <span class="token builtin class-name">echo</span> <span class="token string">&quot;Beginning of custom commands&quot;</span>
+  <span class="token comment">## If you want to set the 'From' email address for your first registration, uncomment and change:</span>
+  <span class="token comment">## After getting the first signup email, re-comment the line. It only needs to run once.</span>
+  - exec: rails r <span class="token string">&quot;SiteSetting.notification_email='xxxx@foxmail.com'&quot;</span>
+  - exec: <span class="token builtin class-name">echo</span> <span class="token string">&quot;End of custom commands&quot;</span>
+</code></pre></div><h2 id="启动discourse"><a href="#启动discourse" class="header-anchor">#</a> 启动Discourse</h2> <p>启动引导程序：</p> <div class="language-shell extra-class"><pre class="language-shell"><code>./launcher bootstrap app
+</code></pre></div><p>引导过程完成后，启动Discourse：</p> <div class="language-shell extra-class"><pre class="language-shell"><code>./launcher start app
+</code></pre></div><h2 id="升级或重新部署discourse"><a href="#升级或重新部署discourse" class="header-anchor">#</a> 升级或重新部署Discourse</h2> <p>您的Discourse平台现在可以使用了。如果将来需要升级Discourse，则可以从命令行中通过从Git存储库中提取最新版本的代码并重建应用程序来进行升级：</p> <blockquote><p>注意</p> <p>升级过程中注意规则的改变，例如升级可能加了新的规则自动删除不活跃的好友，多留意官方动态</p></blockquote> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token builtin class-name">cd</span> /var/discourse
+<span class="token function">sudo</span> <span class="token function">git</span> pull
+<span class="token function">sudo</span> ./launcher rebuild app
+</code></pre></div><h2 id="参考链接"><a href="#参考链接" class="header-anchor">#</a> 参考链接</h2> <p>https://www.vultr.com/docs/how-to-install-discourse-on-ubuntu-18-04-87257
+https://meta.discourse.org/t/running-other-websites-on-the-same-machine-as-discourse/17247
+https://meta.discourse.org/t/wanting-to-run-discourse-alongside-apache/125075</p></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#介绍" title="介绍">介绍</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#准备环境" title="准备环境">准备环境</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#下载discourse" title="下载Discourse">下载Discourse</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#编辑discourse配置" title="编辑Discourse配置">编辑Discourse配置</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#启动discourse" title="启动Discourse">启动Discourse</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#升级或重新部署discourse" title="升级或重新部署Discourse">升级或重新部署Discourse</a></div><div class="vuepress-toc-item vuepress-toc-h2"><a href="#参考链接" title="参考链接">参考链接</a></div></div></div></div> <footer class="footer" data-v-4f6150ea><div class="footer-left-wrap" data-v-4f6150ea><ul class="contact" data-v-4f6150ea><li class="contact-item" data-v-4f6150ea><a href="https://github.com/mhxw" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-4f6150ea><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-4f6150ea><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-4f6150ea></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-4f6150ea><ul class="copyright" data-v-4f6150ea><li class="copyright-item" data-v-4f6150ea>Copyright © 2017-Present Powered by MHXW</li></ul></div></footer></div><div class="global-ui"><!----></div></div>
+    <script src="/note/assets/js/app.36252550.js" defer></script><script src="/note/assets/js/8.2b515bb1.js" defer></script><script src="/note/assets/js/3.f6739d14.js" defer></script><script src="/note/assets/js/19.dff2ad59.js" defer></script><script src="/note/assets/js/11.103ea2f0.js" defer></script>
+  </body>
+</html>

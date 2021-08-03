@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>在Ubuntu上安装CoreDNS | MHXW</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    <link rel="icon" href="/note/logo.png">
+    <link rel="alternate" type="application/rss+xml" href="https://mhxw.life/rss.xml" title="MHXW RSS Feed">
+    <meta name="description" content="
+1. 从 官网 载CoreDNS
+
+将二进制文件解压到 /mhxw/dns并使其可执行
+
+sudo chmod +x /mhxw/dns/coredns
+
+docker pull coredns/coredns
+
+mkdir -p /mhxw/coredns
+nano ...">
+    <meta name="MHXW" content="mhxw blog">
+    
+    <link rel="preload" href="/note/assets/css/0.styles.15d6f971.css" as="style"><link rel="preload" href="/note/assets/js/app.36252550.js" as="script"><link rel="preload" href="/note/assets/js/8.2b515bb1.js" as="script"><link rel="preload" href="/note/assets/js/3.f6739d14.js" as="script"><link rel="preload" href="/note/assets/js/34.2b92be19.js" as="script"><link rel="preload" href="/note/assets/js/11.103ea2f0.js" as="script"><link rel="prefetch" href="/note/assets/js/10.6929b2b7.js"><link rel="prefetch" href="/note/assets/js/12.4d636b7f.js"><link rel="prefetch" href="/note/assets/js/13.d93a6436.js"><link rel="prefetch" href="/note/assets/js/14.521720fc.js"><link rel="prefetch" href="/note/assets/js/15.fe7581b1.js"><link rel="prefetch" href="/note/assets/js/16.fd0d2525.js"><link rel="prefetch" href="/note/assets/js/17.bd669e5d.js"><link rel="prefetch" href="/note/assets/js/18.49681434.js"><link rel="prefetch" href="/note/assets/js/19.dff2ad59.js"><link rel="prefetch" href="/note/assets/js/20.97e79743.js"><link rel="prefetch" href="/note/assets/js/21.c93097bc.js"><link rel="prefetch" href="/note/assets/js/22.429da250.js"><link rel="prefetch" href="/note/assets/js/23.730f8451.js"><link rel="prefetch" href="/note/assets/js/24.6eed2fc2.js"><link rel="prefetch" href="/note/assets/js/25.6ccaca11.js"><link rel="prefetch" href="/note/assets/js/26.a22dd40f.js"><link rel="prefetch" href="/note/assets/js/27.78579ce9.js"><link rel="prefetch" href="/note/assets/js/28.b4036104.js"><link rel="prefetch" href="/note/assets/js/29.4aa3c2c4.js"><link rel="prefetch" href="/note/assets/js/30.3a3b493c.js"><link rel="prefetch" href="/note/assets/js/31.57fab91c.js"><link rel="prefetch" href="/note/assets/js/32.47a51bf2.js"><link rel="prefetch" href="/note/assets/js/33.13e1708f.js"><link rel="prefetch" href="/note/assets/js/35.3536a88d.js"><link rel="prefetch" href="/note/assets/js/36.1c3e47e9.js"><link rel="prefetch" href="/note/assets/js/4.638b10e5.js"><link rel="prefetch" href="/note/assets/js/5.e5967abf.js"><link rel="prefetch" href="/note/assets/js/6.c4877f48.js"><link rel="prefetch" href="/note/assets/js/7.e800e18b.js"><link rel="prefetch" href="/note/assets/js/9.632d5cc1.js"><link rel="prefetch" href="/note/assets/js/vuejs-paginate.92caeb0c.js">
+    <link rel="stylesheet" href="/note/assets/css/0.styles.15d6f971.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div id="vuepress-theme-blog__global-layout"><section id="header-wrapper"><header id="header"><div class="header-wrapper"><div class="title"><a href="/note/" class="nav-link home-link">MHXW </a></div> <div class="header-right-wrap"><ul class="nav"><li class="nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul> <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div></div></div></header></section> <div id="mobile-header"><div class="mobile-header-bar"><div class="mobile-header-title"><a href="/note/" class="nav-link mobile-home-link">MHXW </a> <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></div> <div class="mobile-menu-wrapper"><hr class="menu-divider"> <ul class="mobile-nav"><li class="mobile-nav-item"><a href="/note/" class="nav-link">首页</a></li><li class="mobile-nav-item"><a href="/note/tag/" class="nav-link">标签</a></li><li class="mobile-nav-item"><a href="/note/about.html" class="nav-link">关于</a></li></ul></div></div></div> <div class="content-wrapper"><div id="vuepress-theme-blog__post-layout"><article itemscope="itemscope" itemtype="https://schema.org/BlogPosting" class="vuepress-blog-theme-content"><header><h1 itemprop="name headline" class="post-title">
+        在Ubuntu上安装CoreDNS
+      </h1> <div class="post-meta"><div class="post-meta-date"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-clock"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg> <time pubdate itemprop="datePublished" datetime="2021-7-11">
+        2021-07-11
+      </time></div> <ul itemprop="keywords" class="post-meta-tags"><li class="post-tag" data-v-450235f2><a href="/note/tag/linux" data-v-450235f2><span data-v-450235f2>linux</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/dns" data-v-450235f2><span data-v-450235f2>dns</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/ubuntu" data-v-450235f2><span data-v-450235f2>ubuntu</span></a></li><li class="post-tag" data-v-450235f2><a href="/note/tag/coredns" data-v-450235f2><span data-v-450235f2>coredns</span></a></li></ul></div></header> <div itemprop="articleBody" class="content__default"><h2 id="设置"><a href="#设置" class="header-anchor">#</a> 设置</h2> <h3 id="_1-从-官网-载coredns"><a href="#_1-从-官网-载coredns" class="header-anchor">#</a> 1. 从 <a href="https://coredns.io/" target="_blank" rel="noopener noreferrer">官网<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span class="sr-only">(opens new window)</span></span></a> 载CoreDNS</h3> <p>将二进制文件解压到 <code>/mhxw/dns</code>并使其可执行</p> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">sudo</span> <span class="token function">chmod</span> +x /mhxw/dns/coredns
+</code></pre></div><div class="language-shell extra-class"><pre class="language-shell"><code>docker pull coredns/coredns
+</code></pre></div><div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">mkdir</span> -p /mhxw/coredns
+<span class="token function">nano</span> /mhxw/coredns/dns/coredns/corefile
+</code></pre></div><h3 id="配置方式"><a href="#配置方式" class="header-anchor">#</a> 配置方式</h3> <ul><li>内部hosts</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>.:53 <span class="token punctuation">{</span>
+    hosts <span class="token punctuation">{</span>
+        <span class="token number">10.0</span>.0.1 my.host.com
+        fallthrough
+    <span class="token punctuation">}</span>
+    forward <span class="token builtin class-name">.</span> <span class="token number">114.114</span>.114.114:53
+    log
+<span class="token punctuation">}</span>
+</code></pre></div><ul><li>外部hosts</li></ul> <div class="language-shell extra-class"><pre class="language-shell"><code>.:53 <span class="token punctuation">{</span>
+    hosts /etc/coredns/hostsfile <span class="token punctuation">{</span>
+        fallthrough
+    <span class="token punctuation">}</span>
+    forward <span class="token builtin class-name">.</span> <span class="token number">8.8</span>.8.8:53
+    log
+<span class="token punctuation">}</span>
+</code></pre></div><div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># cat hostsfile</span>
+<span class="token number">10.0</span>.0.1 my.host.com
+</code></pre></div><h3 id="启动服务"><a href="#启动服务" class="header-anchor">#</a> 启动服务</h3> <div class="language-shell extra-class"><pre class="language-shell"><code>docker run -it -d --name coredns <span class="token punctuation">\</span>
+--net<span class="token operator">=</span>host <span class="token punctuation">\</span>
+-v /mhxw/dns/coredns:/etc/coredns/ <span class="token punctuation">\</span>
+coredns/coredns:latest <span class="token punctuation">\</span>
+-conf /etc/coredns/corefile
+</code></pre></div><h3 id="测试"><a href="#测试" class="header-anchor">#</a> 测试</h3> <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">dig</span> @127.0.0.1 -p <span class="token number">53</span> my.host.com
+</code></pre></div></div> <footer><!----> <hr> <!----></footer></article> <div class="sticker vuepress-toc"><div class="vuepress-toc-item vuepress-toc-h2 active"><a href="#设置" title="设置">设置</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#_1-从-官网-载coredns" title="1. 从 官网 载CoreDNS">1. 从 官网 载CoreDNS</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#配置方式" title="配置方式">配置方式</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#启动服务" title="启动服务">启动服务</a></div><div class="vuepress-toc-item vuepress-toc-h3"><a href="#测试" title="测试">测试</a></div></div></div></div> <footer class="footer" data-v-4f6150ea><div class="footer-left-wrap" data-v-4f6150ea><ul class="contact" data-v-4f6150ea><li class="contact-item" data-v-4f6150ea><a href="https://github.com/mhxw" target="_blank" rel="noopener noreferrer" class="nav-link external" data-v-4f6150ea><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github" data-v-4f6150ea><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" data-v-4f6150ea></path></svg>
+          
+        </a></li></ul></div> <div class="footer-right-wrap" data-v-4f6150ea><ul class="copyright" data-v-4f6150ea><li class="copyright-item" data-v-4f6150ea>Copyright © 2017-Present Powered by MHXW</li></ul></div></footer></div><div class="global-ui"><!----></div></div>
+    <script src="/note/assets/js/app.36252550.js" defer></script><script src="/note/assets/js/8.2b515bb1.js" defer></script><script src="/note/assets/js/3.f6739d14.js" defer></script><script src="/note/assets/js/34.2b92be19.js" defer></script><script src="/note/assets/js/11.103ea2f0.js" defer></script>
+  </body>
+</html>
